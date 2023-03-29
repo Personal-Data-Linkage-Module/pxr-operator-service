@@ -1,0 +1,15 @@
+{
+    "name": "postgres",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "pxr_pod",
+    "schema": "pxr_operator",
+    "username": "pxr_operator_user",
+    "password": "pxr_password",
+    "synchronize": false,
+    "logging": false,
+    "extra": {
+        "poolSize": 100
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "session_expire": 168,
+    "login_code_expire": 10,
+    "initial_password_expire": 7,
+    "cookie_base_name":"operator_type%s_session",
+    "catalog_url": "http://localhost:3001/catalog",
+    "catalog_ext_name": "test-org",
+    "ca_url": "http://localhost:3012/certification-authority",
+    "block": {
+        "_value": 1000109,
+        "_ver": 1
+    },
+    "actor": {
+        "_value": 1000020,
+        "_ver": 1
+    },
+    "corePerThread": 1,
+    "sms": {
+        "countryCode": "+81-"
+    },
+    "smsVerification": {
+        "expiration": {
+            "type": "minute",
+            "value": 10
+        },
+        "message": "Your code is %s"
+    },
+    "session": {
+        "expiration": {
+            "type": "hour",
+            "value": 3
+        },
+        "timeLeft": {
+            "type": "minute",
+            "value": 30
+        }
+    },
+    "userInfoCatalogCode": 1000373,
+    "timezone": "Asia/Tokyo",
+    "csrf_check_url": "http://localhost:3000/operator/csrf/check",
+    "csrf_get_url": "http://localhost:3000/operator/csrf/token"
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "catalogItem": {
+      "_code": {
+        "_value": 139,
+        "_ver": 1
+      }
+    },
+    "template": {
+      "auth-name": "add"
+    }
+  },
+  {
+    "catalogItem": {
+      "_code": {
+        "_value": 140,
+        "_ver": 1
+      }
+    },
+    "template": {
+      "auth-name": "update"
+    }
+  },
+  {
+    "catalogItem": {
+      "_code": {
+        "_value": 141,
+        "_ver": 1
+      }
+    },
+    "template": {
+      "auth-name": "delete"
+    }
+  }
+]

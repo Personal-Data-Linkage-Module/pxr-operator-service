@@ -1,0 +1,26 @@
+[
+    {
+      "catalogItem": {
+        "ns": "catalog/ext/test-org/setting/actor-own/data-trader/actor_1000020",
+        "name": "データ取引組織：アクター個別設定",
+        "_code": {
+          "_value": 1000020,
+          "_ver": 1
+        },
+        "inherit": {
+          "_value": 115,
+          "_ver": 1
+        },
+        "description": "データ取引サービスプロバイダーによるアクター個別設定の定義です。"
+      },
+      "template": {
+        "_code": {
+          "_value": 1000020,
+          "_ver": 1
+        },
+        "use_user_information": false,
+        "use_multifactor_authentication": true
+      },
+      "attribute": null
+    }
+  ]

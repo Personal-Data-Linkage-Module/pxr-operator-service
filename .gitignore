@@ -1,0 +1,10 @@
+node_modules
+coverage-unit/*
+!coverage-unit/sprint*
+!coverage-unit/scope*
+dist
+logs
+/npm-debug.log*
+/xunit.xml
+*.code-workspace
+report.*.json

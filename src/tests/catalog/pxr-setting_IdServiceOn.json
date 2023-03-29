@@ -1,0 +1,650 @@
+[
+  {
+    "catalogItem": {
+      "ns": "catalog/ext/test-org/setting/global",
+      "name": "PLR：グローバル設定",
+      "_code": {
+        "_value": 1000374,
+        "_ver": 1
+      },
+      "inherit": {
+        "_value": 160,
+        "_ver": 1
+      },
+      "description": "PLR全体のグローバル設定の定義です。"
+    },
+    "template": {
+      "_code": {
+        "_value": 1000374,
+        "_ver": 1
+      },
+      "account-lock-count": 6,
+      "account-lock-release-time": {
+        "type": "minute",
+        "value": 30
+      },
+      "app-p-name": "アプリケーションプロバイダー",
+      "book-name": "PLR-Book",
+      "book_create_sms_message": "%s?ID=%s パスワード: %s",
+      "catalog-name": "PLRカタログ",
+      "coin-name": "PLRコイン",
+      "data-consumer-name": "データコンシューマー",
+      "data-trader-name": "データ取引サービスプロバイダー",
+      "help_contact": {
+        "title": "ヘルプ・問い合わせ",
+        "section": [
+          {
+            "title": "ヘルプ・問い合わせ",
+            "content": [
+              {
+                "sentence": "ヘルプ・問い合わせです。"
+              }
+            ]
+          }
+        ]
+      },
+      "identity-verification-expiration": {
+        "type": "day",
+        "value": 7
+      },
+      "login_sms_message": "PLRポータルのワンタイムログインコードは %s です。",
+      "management_format_errormessage": "12桁以上かつアルファベットと数字混在で入力して下さい。",
+      "management_initial_login_description": {
+        "title": "初回ログインURL通知文書説明",
+        "section": [
+          {
+            "title": "初回ログインURL通知文書説明",
+            "content": [
+              {
+                "sentence": "初回ログインURL通知文書説明"
+              }
+            ]
+          }
+        ]
+      },
+      "management_password_format": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{12,}$",
+      "onboarding_start": {
+        "title": "Onboarding",
+        "section": [
+          {
+            "title": "PXRエコシステムとは",
+            "content": [
+              {
+                "sentence": "PXRエコシステム説明"
+              }
+            ]
+          }
+        ]
+      },
+      "onboarding_store": {
+        "title": "データ蓄積設定",
+        "section": [
+          {
+            "title": "データ蓄積設定",
+            "content": [
+              {
+                "sentence": "データ蓄積設定説明"
+              }
+            ]
+          }
+        ]
+      },
+      "one-time-login-code-expiration": null,
+      "password-expiration": {
+        "type": "day",
+        "value": 90
+      },
+      "password-generations-number": 4,
+      "personal_account_delete": false,
+      "personal_account_delete_ng_message": "アカウント削除をご希望の場合はお問合せ下さい。",
+      "personal_disassociation": false,
+      "personal_initial_login_description": {
+        "title": "Book開設時のQRコード通知文書説明",
+        "section": [
+          {
+            "title": "Book開設時のQRコード通知文書説明",
+            "content": [
+              {
+                "sentence": "Book開設時のQRコード通知文書説明"
+              }
+            ]
+          }
+        ]
+      },
+      "personal_share_basic_policy": false,
+      "personal_temporary_share": false,
+      "personal_two-step_verification": false,
+      "portal-name": "My PLR",
+      "pxr_id_format_errormessage": "12桁以上かつアルファベットと数字混在で入力して下さい。",
+      "pxr_id_password_format": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{12,}$",
+      "pxr_id_prefix": null,
+      "pxr_id_suffix": "test.org",
+      "region-root-name": "領域運営サービスプロバイダー",
+      "search_target_ns": [
+        {
+          "name": "データカテゴリ",
+          "ns": "catalog/ext/test-org/attribute/category/data"
+        }
+      ],
+      "session-expiration": {
+        "type": "hour",
+        "value": 3
+      },
+      "system-name": "PLRシステム",
+      "terms_of_service": {
+        "title": "利用規約",
+        "section": [
+          {
+            "title": "利用規約",
+            "content": [
+              {
+                "sentence": "利用規約です。"
+              }
+            ]
+          }
+        ]
+      },
+      "wf-p-name": "研究プロジェクト",
+      "workflow-name": "研究",
+      "use_id_connect": true
+    },
+    "prop": [
+      {
+        "key": "account-lock-count",
+        "type": {
+          "of": "number",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "アカウントロックまでの試行上限回数",
+        "isInherit": true
+      },
+      {
+        "key": "account-lock-release-time",
+        "type": {
+          "of": "inner",
+          "inner": "Expiration",
+          "cmatrix": null,
+          "candidate": null
+        },
+        "description": "アカウントロック解除までの時間",
+        "isInherit": true
+      },
+      {
+        "key": "app-p-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "アプリケーションプロバイダーの呼称",
+        "isInherit": true
+      },
+      {
+        "key": "book-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "My-Condition-Book呼称",
+        "isInherit": true
+      },
+      {
+        "key": "book_create_sms_message",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "Book作成時SMSメッセージ内容",
+        "isInherit": true
+      },
+      {
+        "key": "catalog-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "My-Condition-Dataカタログ呼称",
+        "isInherit": true
+      },
+      {
+        "key": "coin-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "PXRコイン呼称",
+        "isInherit": true
+      },
+      {
+        "key": "data-consumer-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "データコンシューマーの呼称",
+        "isInherit": true
+      },
+      {
+        "key": "data-trader-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "データ取引サービスプロバイダーの呼称",
+        "isInherit": true
+      },
+      {
+        "key": "help_contact",
+        "type": {
+          "of": "item",
+          "_code": null,
+          "cmatrix": null,
+          "candidate": {
+            "ns": null,
+            "_code": [
+              {
+                "_value": 61,
+                "_ver": 1
+              }
+            ],
+            "base": null
+          }
+        },
+        "description": "ヘルプ・問い合わせ",
+        "isInherit": true
+      },
+      {
+        "key": "identity-verification-expiration",
+        "type": {
+          "of": "inner",
+          "inner": "Expiration",
+          "cmatrix": null,
+          "candidate": null
+        },
+        "description": "本人性確認コード有効期限",
+        "isInherit": true
+      },
+      {
+        "key": "login_sms_message",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "個人ポータルログイン時SMSメッセージ内容",
+        "isInherit": true
+      },
+      {
+        "key": "management_format_errormessage",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "運営ポータル群のパスワードエラーメッセージ",
+        "isInherit": true
+      },
+      {
+        "key": "management_initial_login_description",
+        "type": {
+          "of": "item",
+          "_code": null,
+          "cmatrix": null,
+          "candidate": {
+            "ns": null,
+            "_code": [
+              {
+                "_value": 61,
+                "_ver": 1
+              }
+            ],
+            "base": null
+          }
+        },
+        "description": "運営ポータル：初回ログインURL通知文書説明文",
+        "isInherit": true
+      },
+      {
+        "key": "management_password_format",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "運営ポータル群のパスワードフォーマット",
+        "isInherit": true
+      },
+      {
+        "key": "onboarding_start",
+        "type": {
+          "of": "item",
+          "_code": null,
+          "cmatrix": null,
+          "candidate": {
+            "ns": null,
+            "_code": [
+              {
+                "_value": 61,
+                "_ver": 1
+              }
+            ],
+            "base": null
+          }
+        },
+        "description": "個人ポータル開始時のオンボーディング記載内容",
+        "isInherit": true
+      },
+      {
+        "key": "onboarding_store",
+        "type": {
+          "of": "item",
+          "_code": null,
+          "cmatrix": null,
+          "candidate": {
+            "ns": null,
+            "_code": [
+              {
+                "_value": 61,
+                "_ver": 1
+              }
+            ],
+            "base": null
+          }
+        },
+        "description": "個人ポータル蓄積設定時のオンボーディング記載内容",
+        "isInherit": true
+      },
+      {
+        "key": "one-time-login-code-expiration",
+        "type": {
+          "of": "inner",
+          "inner": "Expiration",
+          "cmatrix": null,
+          "candidate": null
+        },
+        "description": "ワンタイムログインコード有効期限",
+        "isInherit": true
+      },
+      {
+        "key": "password-expiration",
+        "type": {
+          "of": "inner",
+          "inner": "Expiration",
+          "cmatrix": null,
+          "candidate": null
+        },
+        "description": "パスワード有効期限",
+        "isInherit": true
+      },
+      {
+        "key": "password-generations-number",
+        "type": {
+          "of": "number",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "パスワード世代管理数",
+        "isInherit": true
+      },
+      {
+        "key": "personal_account_delete",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "個人ポータル：アカウント削除の可否設定",
+        "isInherit": true
+      },
+      {
+        "key": "personal_account_delete_ng_message",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "個人ポータル：アカウント削除できない設定時の表示メッセージ内容",
+        "isInherit": true
+      },
+      {
+        "key": "personal_disassociation",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "個人ポータル：連携解除可否設定",
+        "isInherit": true
+      },
+      {
+        "key": "personal_initial_login_description",
+        "type": {
+          "of": "item",
+          "_code": null,
+          "cmatrix": null,
+          "candidate": {
+            "ns": null,
+            "_code": [
+              {
+                "_value": 61,
+                "_ver": 1
+              }
+            ],
+            "base": null
+          }
+        },
+        "description": "Book開設時のQRコード通知文書説明文",
+        "isInherit": true
+      },
+      {
+        "key": "personal_share_basic_policy",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "個人ポータル：共有の基本方針可否設定",
+        "isInherit": true
+      },
+      {
+        "key": "personal_temporary_share",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "個人ポータル：一時的共有の可否設定",
+        "isInherit": true
+      },
+      {
+        "key": "personal_two-step_verification",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "個人ポータル：2段階認証解除可否設定",
+        "isInherit": true
+      },
+      {
+        "key": "portal-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "個人ポータル呼称",
+        "isInherit": true
+      },
+      {
+        "key": "pxr_id_format_errormessage",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "PXR-IDのパスワードエラーメッセージ",
+        "isInherit": true
+      },
+      {
+        "key": "pxr_id_password_format",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "PXR-IDのパスワードフォーマット",
+        "isInherit": true
+      },
+      {
+        "key": "pxr_id_prefix",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "PXR-IDのprefix",
+        "isInherit": true
+      },
+      {
+        "key": "pxr_id_suffix",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "PXR-IDのsuffix",
+        "isInherit": true
+      },
+      {
+        "key": "region-root-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "領域運営サービスプロバイダーの名称",
+        "isInherit": true
+      },
+      {
+        "key": "search_target_ns",
+        "type": {
+          "of": "inner[]",
+          "inner": "SearchTargetNs",
+          "cmatrix": null,
+          "candidate": null
+        },
+        "description": "検索対象ネームスペース",
+        "isInherit": true
+      },
+      {
+        "key": "session-expiration",
+        "type": {
+          "of": "inner",
+          "inner": "Expiration",
+          "cmatrix": null,
+          "candidate": null
+        },
+        "description": "セッション有効期限",
+        "isInherit": true
+      },
+      {
+        "key": "system-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "PXRエコシステム基盤呼称",
+        "isInherit": true
+      },
+      {
+        "key": "terms_of_service",
+        "type": {
+          "of": "item",
+          "_code": null,
+          "cmatrix": null,
+          "candidate": {
+            "ns": null,
+            "_code": [
+              {
+                "_value": 61,
+                "_ver": 1
+              }
+            ],
+            "base": null
+          }
+        },
+        "description": "利用規約",
+        "isInherit": true
+      },
+      {
+        "key": "wf-p-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "ワークフロープロバイダーの呼称",
+        "isInherit": true
+      },
+      {
+        "key": "workflow-name",
+        "type": {
+          "of": "string",
+          "cmatrix": null,
+          "format": null,
+          "unit": null,
+          "candidate": null
+        },
+        "description": "ワークフローの呼称",
+        "isInherit": true
+      }
+    ],
+    "attribute": null
+  }
+]

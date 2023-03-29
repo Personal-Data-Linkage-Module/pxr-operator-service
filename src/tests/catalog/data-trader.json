@@ -1,0 +1,137 @@
+[
+  {
+    "catalogItem": {
+      "ns": "catalog/model/setting/actor/data-trader",
+      "name": "setting",
+      "_code": {
+        "_value": 115,
+        "_ver": 1
+      },
+      "inherit": null,
+      "description": "流通制御によるデータ取引サービスプロバイダーのアクター個別設定の定義です。"
+    },
+    "template": {
+      "_code": {
+        "_value": 115,
+        "_ver": 1
+      },
+      "auth-group": [
+        {
+          "title": "運営メンバー管理",
+          "auth": [
+            {
+              "_value": 139,
+              "_ver": 1
+            },
+            {
+              "_value": 140,
+              "_ver": 1
+            },
+            {
+              "_value": 141,
+              "_ver": 1
+            }
+          ]
+        },
+        {
+          "title": "Book開設",
+          "auth": [
+            {
+              "_value": 142,
+              "_ver": 1
+            }
+          ]
+        },
+        {
+          "title": "情報口座開設",
+          "auth": [
+            {
+              "_value": 143,
+              "_ver": 1
+            }
+          ]
+        },
+        {
+          "title": "アクター認定",
+          "auth": [
+            {
+              "_value": 144,
+              "_ver": 1
+            },
+            {
+              "_value": 147,
+              "_ver": 1
+            }
+          ]
+        },
+        {
+          "title": "カタログ管理",
+          "auth": [
+            {
+              "_value": 149,
+              "_ver": 1
+            }
+          ]
+        },
+        {
+          "title": "提携申請",
+          "auth": [
+            {
+              "_value": 152,
+              "_ver": 1
+            },
+            {
+              "_value": 153,
+              "_ver": 1
+            }
+          ]
+        },
+        {
+          "title": "編集",
+          "auth": [
+            {
+              "_value": 155,
+              "_ver": 1
+            }
+          ]
+        }
+      ],
+      "certify-consumer": null,
+      "create-book": null
+    },
+    "prop": [
+      {
+        "key": "auth",
+        "type": {
+          "of": "code[]",
+          "cmatrix": null,
+          "candidate": {
+            "ns": [
+              "catalog/model/auth"
+            ],
+            "_code": null,
+            "base": null
+          }
+        },
+        "description": "操作権の配列"
+      },
+      {
+        "key": "certify-consumer",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "Consumer認定権限有無"
+      },
+      {
+        "key": "create-book",
+        "type": {
+          "of": "boolean",
+          "cmatrix": null
+        },
+        "description": "Book開設権限有無"
+      }
+    ],
+    "attribute": null
+  }
+]

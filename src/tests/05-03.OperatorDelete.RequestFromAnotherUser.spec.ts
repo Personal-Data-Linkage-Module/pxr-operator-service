@@ -10,14 +10,15 @@ import Common from './Common';
 
 const app = new Application();
 const expressApp = app.express.app;
+const common = new Common();
 
 app.start();
 
 describe('Operator Service.Operator Delete API', () => {
     beforeAll(async () => {
-        await new Common().connect();
-        await new Common().executeSqlFile('initialData.sql');
-        await new Common().executeSqlString(`
+        await common.connect();
+        await common.executeSqlFile('initialData.sql');
+        await common.executeSqlString(`
             INSERT INTO pxr_operator.operator
             (
                 id, type, login_id, hpassword, pxr_id, user_information, name, mobile_phone, mail, auth,
@@ -113,7 +114,7 @@ describe('Operator Service.Operator Delete API', () => {
             '2020-09-01 00:00:00.000',
             'member020');
         `);
-        await new Common().executeSqlString(`
+        await common.executeSqlString(`
         INSERT INTO pxr_operator.session VALUES
         (
             '86d7eb745a94d6a6f95e9ffba4398fc37962144a7c2f50884df3d09d49b0b0b2',
@@ -127,6 +128,7 @@ describe('Operator Service.Operator Delete API', () => {
         );`);
     });
     afterAll(async () => {
+        common.disconnect();
         app.stop();
     });
     test('異常系：別のユーザー(運営以外)から削除のリクエスト', async () => {

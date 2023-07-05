@@ -52,7 +52,7 @@ describe('operator API', () => {
         // サーバ停止
         app.stop();
         // DB切断
-        // await common.disconnect();
+        await common.disconnect();
     });
 
     /**

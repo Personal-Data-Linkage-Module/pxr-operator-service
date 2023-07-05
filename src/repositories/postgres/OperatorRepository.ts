@@ -232,7 +232,7 @@ export default class OperatorRepository {
      * @param operator
      */
     public async releaseAccountLock (operator: OperatorEntity) {
-        const entity = await this.connection.getRepository(OperatorEntity).findOne(operator.id);
+        const entity = await this.connection.getRepository(OperatorEntity).findOneBy({ id: operator.id });
         entity.lockFlg = false;
         entity.updatedBy = operator.loginId;
         await this.connection.getRepository(OperatorEntity).save(entity);
@@ -243,7 +243,7 @@ export default class OperatorRepository {
      * @param operator
      */
     public async accountLock (operator: OperatorEntity) {
-        const entity = await this.connection.getRepository(OperatorEntity).findOne(operator.id);
+        const entity = await this.connection.getRepository(OperatorEntity).findOneBy({ id: operator.id });
         entity.lockFlg = true;
         entity.lockStartAt = new Date();
         entity.updatedBy = operator.loginId;
@@ -255,7 +255,7 @@ export default class OperatorRepository {
      * @param operator
      */
     public async enablePasswordResetFlg (operator: OperatorEntity) {
-        const entity = await this.connection.getRepository(OperatorEntity).findOne(operator.id);
+        const entity = await this.connection.getRepository(OperatorEntity).findOneBy({ id: operator.id });
         entity.passwordChangedFlg = false;
         entity.updatedBy = operator.loginId;
         const ret = await this.connection.getRepository(OperatorEntity).save(entity);

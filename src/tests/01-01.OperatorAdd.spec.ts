@@ -339,10 +339,10 @@ describe('operator API', () => {
      * 全テスト実行後の処理
      */
     afterAll(async () => {
+        // DB切断
+        await common.disconnect();
         // サーバ停止
         app.stop();
-        // DB切断
-        // await common.disconnect();
     });
 
     /**

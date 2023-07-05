@@ -23,6 +23,8 @@ describe('Validate request body is array', () => {
     });
 
     afterAll(async () => {
+        // DB切断
+        await common.disconnect();
         app.stop();
     });
 

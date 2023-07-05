@@ -174,7 +174,7 @@ describe('operator API', () => {
         // サーバ停止
         app.stop();
         // DB切断
-        // await common.disconnect();
+        await common.disconnect();
         // process.envを既定に戻す
         process.env = OLD_ENV;
     });

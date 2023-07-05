@@ -23,6 +23,8 @@ describe('本人性確認コード > 本人性確認コード登録API', () => {
         await common.executeSqlFile('initialData.sql');
     });
     afterAll(async () => {
+        // DB切断
+        await common.disconnect();
         app.stop();
     });
 

@@ -6,7 +6,7 @@ https://opensource.org/licenses/mit-license.php
 import path = require('path');
 import fs = require('fs');
 import { connectDatabase } from '../common/Connection';
-import { getConnection } from 'typeorm';
+import { Connection, getConnection } from 'typeorm';
 /* eslint-enable */
 
 // テスト用にlisten数を無制限に設定
@@ -116,8 +116,13 @@ export namespace Url {
  * テスト用共通クラス
  */
 export default class Common {
+    private conn: Connection;
     async connect () {
-        await connectDatabase();
+        this.conn = await connectDatabase();
+    }
+
+    async disconnect () {
+        this.conn.destroy();
     }
 
     /**

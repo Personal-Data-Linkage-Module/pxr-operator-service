@@ -89,6 +89,8 @@ describe('User Info API', () => {
         }
     });
     afterAll(async () => {
+        // DB切断
+        await common.disconnect();
         if (catalogServer) {
             await catalogServer.stop();
         }

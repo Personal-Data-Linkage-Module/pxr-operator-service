@@ -45,7 +45,31 @@ jest.mock('../common/Config', () => ({
                     },
                     timezone: 'Asia/Tokyo',
                     csrf_check_url: 'http://localhost:3000/operator/csrf/check',
-                    csrf_get_url: 'http://localhost:3000/operator/csrf/token'
+                    csrf_get_url: 'http://localhost:3000/operator/csrf/token',
+                    headersPattern: {
+                        external: [
+                            {
+                                key: 'host',
+                                value: '.+\\.pxrsrc\\.me\\.uk$'
+                            },
+                            {
+                                key: 'x-amzn-trace-id',
+                                value: '^[a-zA-Z]+=[0-9]-[a-f0-9]{8}-[a-f0-9]{24}$'
+                            }
+                        ],
+                        betweenBlocks: [
+                            {
+                                key: 'host',
+                                value: '^(root|external|application[0-9]{6}|consumer[0-9]{6}|region[0-9]{6}|trader[0-9]{6})-service$'
+                            }
+                        ],
+                        withinBlock: [
+                            {
+                                key: 'host',
+                                value: '^(localhost|127\\.0\\.0\\.1)(|:[0-9]{4,5})$'
+                            }
+                        ]
+                    }
                 };
             } else {
                 return JSON.parse(fs.readFileSync(path, 'UTF-8'));

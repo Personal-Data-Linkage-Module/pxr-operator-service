@@ -299,5 +299,53 @@ describe('operator API', () => {
             // レスポンスチェック
             expect(response.status).toBe(401);
         });
+        test('異常　外部からの接続でヘッダーからログイン情報を取得', async () => {
+            // 送信データを生成
+            const session = JSON.stringify({
+                sessionId: '494a44bb97aa0ef964f6a666b9019b2d20bf05aa811919833f3e0c0ae2b09b38',
+                operatorId: 1,
+                type: 3,
+                loginId: 'test-user',
+                name: 'test-user',
+                mobilePhone: '0311112222',
+                auth: {
+                    member: {
+                        add: true,
+                        update: true,
+                        delete: true
+                    }
+                },
+                lastLoginAt: '2020-01-01T00:00:00.000+0900',
+                attributes: {},
+                roles: [
+                    {
+                        _value: 1,
+                        _ver: 1
+                    }
+                ],
+                block: {
+                    _value: 1000112,
+                    _ver: 1
+                },
+                actor: {
+                    _value: 1000001,
+                    _ver: 1
+                }
+            });
+
+            // 対象APIに送信
+            const response = await supertest(expressApp)
+                .get(Url.getURI + '/1')
+                .set({ accept: 'application/json', 'Content-Type': 'application/json' })
+                .set({ session: encodeURIComponent(session) })
+                .set({ host: 'root.pxrstd.pxrsrc.me.uk' })
+                .set({ 'x-amzn-trace-id': 'Root=1-63ef4df1-0522cd53689dcada211daf8b' });
+            // レスポンスチェック
+            expect(JSON.stringify(response.body))
+                .toBe(JSON.stringify({
+                    status: 401, message: '未ログイン状態でのリクエストはエラーです'
+                }));
+            expect(response.status).toBe(401);
+        });
     });
 });

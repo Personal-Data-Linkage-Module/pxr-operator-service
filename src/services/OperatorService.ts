@@ -39,12 +39,14 @@ import PasswordHistoryOperation from '../repositories/postgres/PasswordHistoryOp
 import OperatorDomain from '../domains/OperatorDomain';
 import IdService from './IdService_Stub';
 import { isEmpty } from 'class-validator';
+import * as log4js from 'log4js';
 import { v4 as uuid } from 'uuid';
 import moment = require('moment-timezone');
 /* eslint-enable */
 import crypto = require('crypto');
 const Message = Config.ReadConfig('./config/message.json');
 const config = Config.ReadConfig('./config/config.json');
+const applicationLogger: log4js.Logger = log4js.getLogger('application');
 
 @Service()
 export default class OperatorService {
@@ -59,6 +61,16 @@ export default class OperatorService {
                 ? req.cookies.operator_type2_session : req.cookies.operator_type3_session
                     ? req.cookies.operator_type3_session : null;
         if (req.headers.session) {
+            const [isExternal, isBetweenBlocks, isWithinBlock] = await Promise.all([
+                OperatorService.judgeExternal(req.headers),
+                OperatorService.judgeBetweenBlocks(req.headers),
+                OperatorService.judgeWithinBlock(req.headers)
+            ]);
+            applicationLogger.debug(JSON.stringify({ isExternal: isExternal, isBetweenBlocks: isBetweenBlocks, isWithinBlock: isWithinBlock }));
+            if (isExternal && !(isBetweenBlocks || isWithinBlock)) {
+                // 外部通信かつ、Block間あるいはBlock内の通信ではない場合、不正なアクセスのためエラー
+                throw new AppError(Message.NOT_AUTHORIZED, 401);
+            }
             let session: any = decodeURIComponent(req.headers.session + '');
             while (typeof session === 'string') {
                 session = JSON.parse(session);
@@ -87,6 +99,64 @@ export default class OperatorService {
             }
         }
         throw new AppError(Message.UNAUTHORIZED, ResponseCode.UNAUTHORIZED);
+    }
+
+    /**
+     * headerを参照して、外部からのアクセスかどうか判定する
+     * （以下同様functionは、保守性確保のため敢えて分ける。）
+     * @param headers
+     * @returns
+     */
+    private static async judgeExternal (headers: {}) {
+        let isExternal = false;
+        for (const keyValue of config['headersPattern']['external']) {
+            if (headers[keyValue.key]) {
+                isExternal = new RegExp(keyValue.value).test(headers[keyValue.key]);
+            }
+            // キー名と一致するプロパティが存在しない、あるいはプロパティの値が正規表現にマッチしない場合は処理を抜けてfalse判定を返す
+            if (!isExternal) {
+                break;
+            }
+        }
+        return isExternal;
+    }
+
+    /**
+     * headerを参照して、Block間通信かどうか判定する
+     * @param headers
+     * @returns
+     */
+    private static async judgeBetweenBlocks (headers: {}) {
+        let isBetweenBlocks = false;
+        for (const keyValue of config['headersPattern']['betweenBlocks']) {
+            if (headers[keyValue.key]) {
+                isBetweenBlocks = new RegExp(keyValue.value).test(headers[keyValue.key]);
+            }
+            // キー名と一致するプロパティが存在しない、あるいはプロパティの値が正規表現にマッチしない場合は処理を抜けてfalse判定を返す
+            if (!isBetweenBlocks) {
+                break;
+            }
+        }
+        return isBetweenBlocks;
+    }
+
+    /**
+     * headerを参照して、Block内通信かどうか判定する
+     * @param headers
+     * @returns
+     */
+    private static async judgeWithinBlock (headers: {}) {
+        let isWithinBlock = false;
+        for (const keyValue of config['headersPattern']['withinBlock']) {
+            if (headers[keyValue.key]) {
+                isWithinBlock = new RegExp(keyValue.value).test(headers[keyValue.key]);
+            }
+            // キー名と一致するプロパティが存在しない、あるいはプロパティの値が正規表現にマッチしない場合は処理を抜けてfalse判定を返す
+            if (!isWithinBlock) {
+                break;
+            }
+        }
+        return isWithinBlock;
     }
 
     /**
@@ -390,6 +460,15 @@ export default class OperatorService {
         if (existsFlg) {
             // ヘッダーにセッション情報がある場合
             if (req.headers.session) {
+                const [isExternal, isBetweenBlocks, isWithinBlock] = await Promise.all([
+                    OperatorService.judgeExternal(req.headers),
+                    OperatorService.judgeBetweenBlocks(req.headers),
+                    OperatorService.judgeWithinBlock(req.headers)
+                ]);
+                if (isExternal && !(isBetweenBlocks || isWithinBlock)) {
+                    // 外部通信かつ、Block間あるいはBlock内の通信ではない場合、不正なアクセスのためエラー
+                    throw new AppError(Message.NOT_AUTHORIZED, 401);
+                }
                 // JSON化
                 let session: any = decodeURIComponent(req.headers.session + '');
                 while (typeof session === 'string') {
@@ -852,6 +931,15 @@ export default class OperatorService {
         let updaterAuth: any;
 
         if (req.headers.session) {
+            const [isExternal, isBetweenBlocks, isWithinBlock] = await Promise.all([
+                OperatorService.judgeExternal(req.headers),
+                OperatorService.judgeBetweenBlocks(req.headers),
+                OperatorService.judgeWithinBlock(req.headers)
+            ]);
+            if (isExternal && !(isBetweenBlocks || isWithinBlock)) {
+                // 外部通信かつ、Block間あるいはBlock内の通信ではない場合、不正なアクセスのためエラー
+                throw new AppError(Message.NOT_AUTHORIZED, 401);
+            }
             // JSON化
             let session: any = decodeURIComponent(req.headers.session + '');
             while (typeof session === 'string') {
@@ -1038,6 +1126,15 @@ export default class OperatorService {
         let register: string;
         const authMe = new AuthMe();
         if (req.headers.session) {
+            const [isExternal, isBetweenBlocks, isWithinBlock] = await Promise.all([
+                OperatorService.judgeExternal(req.headers),
+                OperatorService.judgeBetweenBlocks(req.headers),
+                OperatorService.judgeWithinBlock(req.headers)
+            ]);
+            if (isExternal && !(isBetweenBlocks || isWithinBlock)) {
+                // 外部通信かつ、Block間あるいはBlock内の通信ではない場合、不正なアクセスのためエラー
+                throw new AppError(Message.NOT_AUTHORIZED, 401);
+            }
             // JSON化
             let session: any = decodeURIComponent(req.headers.session + '');
             while (typeof session === 'string') {

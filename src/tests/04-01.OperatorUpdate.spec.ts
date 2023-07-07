@@ -1481,6 +1481,59 @@ describe('operator API', () => {
             expect(response.status).toBe(200);
             expect(response.body.loginId).toBe('manage_member02_update4');
         });
+        test('異常　外部からの接続でヘッダーからログイン情報を取得', async () => {
+            const session = JSON.stringify({
+                sessionId: '494a44bb97aa0ef964f6a666b9019b2d20bf05aa811919833f3e0c0ae2b09b38',
+                operatorId: 7,
+                type: 3,
+                loginId: 'test-user',
+                name: 'test-user',
+                mobilePhone: '0311112222',
+                auth: {
+                    member: {
+                        add: false,
+                        update: false,
+                        delete: false
+                    }
+                },
+                lastLoginAt: '2020-01-01T00:00:00.000+0900',
+                attributes: {},
+                roles: [
+                    {
+                        _value: 1,
+                        _ver: 1
+                    }
+                ],
+                block: {
+                    _value: 1000112,
+                    _ver: 1
+                },
+                actor: {
+                    _value: 1000001,
+                    _ver: 1
+                }
+            });
+
+            // 送信データを生成
+            var json = JSON.stringify({
+                loginId: 'manage_member02_update4'
+            });
+
+            // 対象APIに送信
+            const response = await supertest(expressApp).put(Url.updateURI + '/7')
+                .set({ accept: 'application/json', 'Content-Type': 'application/json' })
+                .set({ session: encodeURIComponent(session) })
+                .set({ host: 'root.pxrstd.pxrsrc.me.uk' })
+                .set({ 'x-amzn-trace-id': 'Root=1-63ef4df1-0522cd53689dcada211daf8b' })
+                .send(json);
+
+            // レスポンスチェック
+            expect(JSON.stringify(response.body))
+                .toBe(JSON.stringify({
+                    status: 401, message: '未ログイン状態でのリクエストはエラーです'
+                }));
+            expect(response.status).toBe(401);
+        });
         test('異常　ヘッダーからログイン情報を取得（運営メンバー以外）', async () => {
             const session = JSON.stringify({
                 sessionId: '494a44bb97aa0ef964f6a666b9019b2d20bf05aa811919833f3e0c0ae2b09b38',

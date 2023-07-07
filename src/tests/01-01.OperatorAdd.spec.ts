@@ -1544,6 +1544,68 @@ describe('operator API', () => {
             expect(response.body.loginId).toBe('test.pxrid.ind99');
             expect(response.body.passwordChangedFlg).toBe(false);
         });
+        test('異常　外部からの接続でヘッダーからログイン情報を取得', async () => {
+            _catalogServer = new _StubCatalogServer(3001, 200);
+            // 送信データを生成
+            var json = {
+                type: 0,
+                loginId: 'test.pxrid.ind99',
+                hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
+                pxrId: 'test.pxrid.ind99',
+                mobilePhone: '09011112222',
+                attributes: {
+                    smsAuth: true,
+                    initialPasswordExpire: expire
+                }
+            };
+
+            const session = JSON.stringify({
+                sessionId: '494a44bb97aa0ef964f6a666b9019b2d20bf05aa811919833f3e0c0ae2b09b38',
+                operatorId: 1,
+                type: 3,
+                loginId: 'test-user',
+                name: 'test-user',
+                mobilePhone: '0311112222',
+                auth: {
+                    member: {
+                        add: true,
+                        update: true,
+                        delete: true
+                    }
+                },
+                lastLoginAt: '2020-01-01T00:00:00.000+0900',
+                attributes: {},
+                roles: [
+                    {
+                        _value: 1,
+                        _ver: 1
+                    }
+                ],
+                block: {
+                    _value: 1000112,
+                    _ver: 1
+                },
+                actor: {
+                    _value: 1000001,
+                    _ver: 1
+                }
+            });
+
+            // 対象APIに送信
+            const response = await supertest(expressApp).post(Url.addURI)
+                .set({ accept: 'application/json', 'Content-Type': 'application/json' })
+                .set({ session: encodeURIComponent(session) })
+                .set({ host: 'root.pxrstd.pxrsrc.me.uk' })
+                .set({ 'x-amzn-trace-id': 'Root=1-63ef4df1-0522cd53689dcada211daf8b' })
+                .send(JSON.stringify(json));
+
+            // レスポンスチェック
+            expect(JSON.stringify(response.body))
+                .toBe(JSON.stringify({
+                    status: 401, message: '未ログイン状態でのリクエストはエラーです'
+                }));
+            expect(response.status).toBe(401);
+        });
         test('権限不足　前提：操作権限のない運営メンバーでログインしていること（false）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 事前データ準備

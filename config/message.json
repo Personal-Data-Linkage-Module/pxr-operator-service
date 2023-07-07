@@ -4,6 +4,7 @@
     "REQUEST_IS_EMPTY": "リクエストが空です",
     "FAILED_TAKE_SESSION": "セッション取得処理に失敗しました",
     "NO_SESSION": "未ログインです",
+    "NOT_AUTHORIZED": "未ログイン状態でのリクエストはエラーです",
     "OPERATOR_NOT_EXISTS": "対象のオペレーターが存在しません",
     "OPERATOR_NOT_LOGIN": "対象のオペレーターはログインが許可されていません",
     "MEMBER_NOT_EXISTS": "運営メンバーが存在しません",

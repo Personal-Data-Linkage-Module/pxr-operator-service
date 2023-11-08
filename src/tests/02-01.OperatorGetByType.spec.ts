@@ -5,6 +5,7 @@ https://opensource.org/licenses/mit-license.php
 import * as supertest from 'supertest';
 import Common, { Url } from './Common';
 import { Application } from '../resources/config/Application';
+import { CatalogServer } from './StubServer';
 import { Session } from './Session';
 import Config from '../common/Config';
 const Message = Config.ReadConfig('./config/message.json');
@@ -13,6 +14,8 @@ const Message = Config.ReadConfig('./config/message.json');
 const app = new Application();
 const expressApp = app.express.app;
 const common = new Common();
+
+let catalogServer: any;
 
 // サーバをlisten
 app.start();
@@ -45,6 +48,10 @@ describe('operator API', () => {
     afterEach(async () => {
         // DB切断
         // await common.disconnect();
+        // スタブ停止
+        if (catalogServer) {
+            await catalogServer.stop();
+        }
     });
     /**
      * 全テスト実行後の処理
@@ -239,6 +246,8 @@ describe('operator API', () => {
             expect(response.body[0].mobilePhone).toBe('09011112222');
         });
         test('正常　前提：対象種別+ログインIDのオペレーターが登録済みであること', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
             // 対象APIに送信
             const response = await supertest(expressApp)
                 .get(Url.getURI + '/?type=3&loginId=manage_member01')
@@ -254,6 +263,8 @@ describe('operator API', () => {
             expect(response.body.loginId).toBe('manage_member01');
         });
         test('正常　セッション情報をcookie0から取得', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
             // 事前データ準備(セッションテーブルデータ追加)
             await common.executeSqlString(`
                 INSERT INTO pxr_operator.session
@@ -282,6 +293,8 @@ describe('operator API', () => {
             expect(response.body.loginId).toBe('manage_member01');
         });
         test('正常　セッション情報をcookie2から取得', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
             // 対象APIに送信
             const response = await supertest(expressApp)
                 .get(Url.getURI + '/?type=3&loginId=manage_member01')
@@ -297,6 +310,8 @@ describe('operator API', () => {
             expect(response.body.loginId).toBe('manage_member01');
         });
         test('正常　セッション情報をcookie3から取得', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
             // 対象APIに送信
             const response = await supertest(expressApp)
                 .get(Url.getURI + '/?type=3&loginId=manage_member01')
@@ -332,6 +347,8 @@ describe('operator API', () => {
             expect(response.status).toBe(204);
         });
         test('データ不足　登録されていないログインIDを指定', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
             // 対象APIに送信
             const response = await supertest(expressApp)
                 .get(Url.getURI + '/?type=3&loginId=manage_member00')
@@ -456,6 +473,8 @@ describe('operator API', () => {
         });
 
         test('異常　type、loginId指定でオペレーターが運営メンバー以外', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
             // 対象APIに送信
             const response = await supertest(expressApp)
                 .get(Url.getURI + '/?type=3&loginId=manage_member01')
@@ -483,6 +502,141 @@ describe('operator API', () => {
             // レスポンスチェック
             expect(response.status).toBe(401);
             expect(response.body.message).toBe(Message.NOT_OPERATION_AUTH);
+        });
+    });
+    /**
+     * 取得（種別指定）（userId重複パターン）
+     */
+    describe('取得（種別指定）（userId重複パターン）', () => {
+        test('正常　type・loginId、appCode指定、app運営による個人取得', async () => {
+            // 事前データ準備
+            await common.executeSqlFile('initialData.sql');
+            await common.executeSqlString(`
+                INSERT INTO pxr_operator.operator
+                (
+                    type, login_id, hpassword, pxr_id, name, auth, last_login_at, login_prohibited_flg,
+                    wf_catalog_code, app_catalog_code, region_catalog_code,
+                    user_id, attributes, is_disabled, created_by, created_at, updated_by, updated_at, unique_check_login_id
+                )
+                VALUES
+                (
+                    0, 'pxrUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'pxrUser01', '個人01', null, '2020-01-15 23:59:59.000', false, 
+                    null, null, null,
+                    null, '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'pxrUser010false'
+                ),
+                (
+                    0, 'wfUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'wfログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    1000010, null, null,
+                    'wfUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'wfUser0101000010true'
+                ),
+                (
+                    0, 'wfUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'wfログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    1000011, null, null,
+                    'wfUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'wfUser0101000011true'
+                ),
+                (
+                    0, 'appUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'appログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, 1000021, null,
+                    'appUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'appUser0101000021true'
+                ),
+                (
+                    0, 'appUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'appログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, 1000022, null,
+                    'appUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'appUser0101000022true'
+                ),
+                (
+                    0, 'regionUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'regionログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, null, 1000030,
+                    'regionUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'regionUser0101000030true'
+                ),
+                (
+                    0, 'regionUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'regionログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, null, 1000031,
+                    'regionUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'regionUser0101000031true'
+                );
+            `);
+
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            // 対象APIに送信
+            const response = await supertest(expressApp)
+                .get(Url.getURI + '/?type=0&loginId=appUser01&appCode=1000021')
+                .set({
+                    accept: 'application/json',
+                    'Content-Type': 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(response.body.operatorId).toBe(4);
+            expect(response.body.type).toBe(0);
+            expect(response.body.loginId).toBe('appUser01');
+            expect(response.body.lastLoginAt).toBe('2020-01-15T23:59:59.000+0900');
+            expect(response.body.passwordChangedFlg).toBe(false);
+            expect(response.body.loginProhibitedFlg).toBe(true);
+            expect(JSON.stringify(response.body.attributes)).toBe(JSON.stringify({ test: 'test' }));
+        });
+        test('正常　type・loginId、regionCode指定、region運営による個人取得', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            // 対象APIに送信
+            const response = await supertest(expressApp)
+                .get(Url.getURI + '/?type=0&loginId=regionUser01&regionCode=1000030')
+                .set({
+                    accept: 'application/json',
+                    'Content-Type': 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrRegion) });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(response.body.operatorId).toBe(6);
+            expect(response.body.type).toBe(0);
+            expect(response.body.loginId).toBe('regionUser01');
+            expect(response.body.lastLoginAt).toBe('2020-01-15T23:59:59.000+0900');
+            expect(response.body.passwordChangedFlg).toBe(false);
+            expect(response.body.loginProhibitedFlg).toBe(true);
+            expect(JSON.stringify(response.body.attributes)).toBe(JSON.stringify({ test: 'test' }));
+        });
+        test('正常　type・loginId指定、流通制御運営による個人取得', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            // 対象APIに送信
+            const response = await supertest(expressApp)
+                .get(Url.getURI + '/?type=0&loginId=pxrUser01')
+                .set({
+                    accept: 'application/json',
+                    'Content-Type': 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrRoot) });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(response.body.operatorId).toBe(1);
+            expect(response.body.type).toBe(0);
+            expect(response.body.loginId).toBe('pxrUser01');
+            expect(response.body.pxrId).toBe('pxrUser01');
+            expect(response.body.lastLoginAt).toBe('2020-01-15T23:59:59.000+0900');
+            expect(response.body.passwordChangedFlg).toBe(false);
+            expect(response.body.loginProhibitedFlg).toBe(false);
+            expect(JSON.stringify(response.body.attributes)).toBe(JSON.stringify({ test: 'test' }));
+        });
+        test('異常　type・loginId、regionCode指定、app運営による個人取得', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            // 対象APIに送信
+            const response = await supertest(expressApp)
+                .get(Url.getURI + '/?type=0&loginId=appUser01&regionCode=1000030')
+                .set({
+                    accept: 'application/json',
+                    'Content-Type': 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) });
+
+            // レスポンスチェック
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe(Message.MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE);
         });
     });
 });

@@ -3,8 +3,9 @@ Released under the MIT license.
 https://opensource.org/licenses/mit-license.php
 */
 import UserInformationDto from './UserInformationDto';
-import { IsString, IsOptional, ValidateNested, IsNotEmptyObject, IsDefined } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNumber, IsString, IsOptional, ValidateNested, IsNotEmptyObject, IsDefined, Max } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
+import { transformToNumber } from '../../common/Transform';
 
 export default class {
     @IsString()
@@ -20,4 +21,16 @@ export default class {
     @ValidateNested()
     @IsNotEmptyObject()
     userInfo: UserInformationDto;
+
+    @IsNumber()
+    @IsOptional()
+    @Max(Number.MAX_SAFE_INTEGER)
+    @Transform(transformToNumber)
+    appCode: number;
+
+    @IsNumber()
+    @IsOptional()
+    @Max(Number.MAX_SAFE_INTEGER)
+    @Transform(transformToNumber)
+    regionCode: number;
 }

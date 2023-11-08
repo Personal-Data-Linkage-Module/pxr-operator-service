@@ -50,6 +50,12 @@ export default class OperatorServiceDto {
     /** ロール */
     private roles: any = null;
 
+    /** appカタログコード */
+    private appCode: number = null;
+
+    /** regionカタログコード */
+    private regionCode: number = null;
+
     /** リクエスト情報 */
     private request: any = null;
 
@@ -143,6 +149,22 @@ export default class OperatorServiceDto {
 
     public setRoles (roles: any) {
         this.roles = roles;
+    }
+
+    public getAppCode (): number {
+        return this.appCode;
+    }
+
+    public setAppCode (appCode: number) {
+        this.appCode = appCode;
+    }
+
+    public getRegionCode (): number {
+        return this.regionCode;
+    }
+
+    public setRegionCode (regionCode: number) {
+        this.regionCode = regionCode;
     }
 
     public getRequest (): any {

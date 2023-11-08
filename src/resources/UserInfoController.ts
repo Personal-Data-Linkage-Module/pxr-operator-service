@@ -49,6 +49,8 @@ export default class UserInfoController {
         serviceDto.setPxrId(dto.pxrId);
         serviceDto.setUserId(dto.userId);
         serviceDto.setUserInfo(dto.userInfo);
+        serviceDto.setAppCode(dto.appCode);
+        serviceDto.setRegionCode(dto.regionCode);
         serviceDto.setRequest(req);
         return new UserInfoService().postUserInfo(getConnection('postgres'), serviceDto, operator);
     }
@@ -70,6 +72,8 @@ export default class UserInfoController {
         const serviceDto = new UserInfoServiceDto();
         serviceDto.setPxrId(params.pxrId);
         serviceDto.setUserId(params.userId);
+        serviceDto.setAppCode(params.appCode);
+        serviceDto.setRegionCode(params.regionCode);
         serviceDto.setRequest(req);
 
         return new UserInfoService().deleteUserInfo(getConnection('postgres'), serviceDto, operator);
@@ -107,9 +111,11 @@ export default class UserInfoController {
     @UseBefore(IdAsOperatorOrUserValidator)
     async get (@QueryParams() params: IdAAsOperatorOrUserReqDto, @Req() req: Request) {
         const operator = await OperatorService.getSession(req);
-        return UserInfoService.getUserInfo(
+        return new UserInfoService().getUserInfo(
             params.pxrId,
             params.userId,
+            params.appCode,
+            params.regionCode,
             operator
         );
     }
@@ -130,9 +136,11 @@ export default class UserInfoController {
         if (operator.type !== OperatorType.TYPE_IND) {
             throw new AppError(message.PERMISSION_DENIED, ResponseCode.UNAUTHORIZED);
         }
-        return UserInfoService.getUserInfo(
+        return new UserInfoService().getUserInfo(
             params.pxrId,
             params.userId,
+            params.appCode,
+            params.regionCode,
             operator
         );
     }

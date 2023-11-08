@@ -92,6 +92,13 @@
     "NOT_MATCH_REGEX": "%sが正しく設定されていません",
     "UNSUPPORTED_OPERATOR": "未サポートのオペレータ種別です",
     "UNSUPPORTED_ACTOR": "未サポートのアクター種別です",
+    "NO_WF_APP_REGION": "利用者IDでの取得の場合、APP/REGIONコードのいずれかの指定が必要です。",
+    "SET_WF_APP_REGION": "APP、REGIONコードの内2つ以上が設定されています",
+    "REQUIRE_SESSION_ACTOR": "セッションにアクターコード情報が必要です。",
+    "NOT_FOUND_ACTOR_CATALOG": "アクターカタログの取得に失敗しました",
+    "MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE": "オペレータの所属ブロックと設定されたサービスのコードが不整合です",
+    "INVALID_OPERATOR_BLOCK_TYPE": "オペレータの所属ブロックが適切ではありません",
+    "COULD_NOT_SPECIFY_OPERATOR": "対象のオペレータを特定できませんでした",
     "validation": {
         "isArray": "配列ではありません",
         "isBoolean": "真偽値ではありません",

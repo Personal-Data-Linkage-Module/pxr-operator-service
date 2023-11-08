@@ -60,6 +60,8 @@ export default class OperatorController {
         serviceDto.setType(query.type);
         serviceDto.setLoginId(query.loginId);
         serviceDto.setPxrId(query.pxrId);
+        serviceDto.setAppCode(query.appCode);
+        serviceDto.setRegionCode(query.regionCode);
         serviceDto.setSession(session);
         return new OperatorService().getOperator(getConnection('postgres'), serviceDto);
     }

@@ -11,7 +11,7 @@ import Config from '../../common/Config';
 /* eslint-enable */
 import OperatorEntity from './OperatorEntity';
 import { OperatorType } from '../../common/OperatorType';
-
+import OperatorService from '../../services/OperatorService';
 const Message = Config.ReadConfig('./config/message.json');
 
 export default class OperatorRepository {
@@ -83,29 +83,65 @@ export default class OperatorRepository {
      * @param type
      * @param loginId
      */
-    public async getRecordFromLoginId (type:number, loginId: string): Promise<OperatorEntity> {
+    public async getRecordFromLoginId (type: number, loginId: string, appCode: number, regionCode: number, operatorBlockType: string): Promise<OperatorEntity> {
+        if (operatorBlockType) {
+            // オペレータの所属blockがapp, region-rootの場合で、対応するサービスコード情報が設定されていない場合はエラー
+            if ((operatorBlockType === OperatorService.BLOCK_TYPE_APP && !appCode) || (operatorBlockType === OperatorService.BLOCK_TYPE_REGION && !regionCode)) {
+                throw new AppError(Message.MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE, ResponseCode.BAD_REQUEST);
+            }
+        }
         const ret = await this.connection
             .createQueryBuilder()
             .from(OperatorEntity, 'operator')
             .where('type = :type', { type: type })
             .andWhere('login_id = :login_id', { login_id: loginId })
-            .andWhere('is_disabled = :is_disabled', { is_disabled: false })
-            .getRawOne();
-        return ret ? new OperatorEntity(ret) : null;
+            .andWhere('is_disabled = :is_disabled', { is_disabled: false });
+        if (operatorBlockType === OperatorService.BLOCK_TYPE_APP) {
+            ret.andWhere('app_catalog_code = :appCatalogCode', { appCatalogCode: appCode });
+        }
+        if (operatorBlockType === OperatorService.BLOCK_TYPE_REGION) {
+            ret.andWhere('region_catalog_code = :regionCatalogCode', { regionCatalogCode: regionCode });
+        }
+        const retOperators: OperatorEntity[] = await ret.getRawMany();
+        // 取得結果0件の場合はnullを返却
+        if (!retOperators || retOperators.length === 0) {
+            return null;
+        } else if (retOperators.length > 1) {
+            // 取得結果が2件以上の場合はエラー
+            throw new AppError(Message.COULD_NOT_SPECIFY_OPERATOR, ResponseCode.BAD_REQUEST);
+        }
+        return new OperatorEntity(retOperators[0]);
     }
 
     /**
-     *
+     * OperatorをuserId, app/regionコードをもとに取得
      * @param userId
      */
-    public async getRecordFromUserId (userId: string) {
+    public async getRecordFromUserId (userId: string, appCode: number, regionCode: number, operatorBlockType: string) {
+        // オペレータの所属blockがapp, region-rootの場合で、対応するサービスコード情報が設定されていない場合はエラー
+        if ((operatorBlockType === OperatorService.BLOCK_TYPE_APP && !appCode) || (operatorBlockType === OperatorService.BLOCK_TYPE_REGION && !regionCode)) {
+            throw new AppError(Message.MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE, ResponseCode.BAD_REQUEST);
+        }
         const ret = await this.connection
             .createQueryBuilder()
             .from(OperatorEntity, 'operator')
             .where('user_id = :id', { id: userId })
-            .andWhere('is_disabled = :is_disabled', { is_disabled: false })
-            .getRawOne();
-        return ret ? new OperatorEntity(ret) : null;
+            .andWhere('is_disabled = :is_disabled', { is_disabled: false });
+        if (operatorBlockType === OperatorService.BLOCK_TYPE_APP) {
+            ret.andWhere('app_catalog_code = :appCatalogCode', { appCatalogCode: appCode });
+        }
+        if (operatorBlockType === OperatorService.BLOCK_TYPE_REGION) {
+            ret.andWhere('region_catalog_code = :regionCatalogCode', { regionCatalogCode: regionCode });
+        }
+        const retOperators: OperatorEntity[] = await ret.getRawMany();
+        // 取得結果0件の場合はnullを返却
+        if (!retOperators || retOperators.length === 0) {
+            return null;
+        } else if (retOperators.length > 1) {
+            // 条件に合うアクティブなオペレータが2件以上取得された場合は、エラー送出する
+            throw new AppError(Message.COULD_NOT_SPECIFY_OPERATOR, ResponseCode.BAD_REQUEST);
+        }
+        return new OperatorEntity(retOperators[0]);
     }
 
     /**

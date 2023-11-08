@@ -34,6 +34,7 @@ import PostUserInfoSearchResDto, { PxrObject } from '../resources/dto/PostUserIn
 import UserInformationEntity from '../repositories/postgres/UserInformationEntity';
 import UserInformationRepository from '../repositories/postgres/UserInformationRepository';
 import SmsVerificationCodeOperation from '../repositories/postgres/SmsVerificationCodeOperation';
+import OperatorService from './OperatorService';
 import { sprintf } from 'sprintf-js';
 import config = require('config');
 const configure = Config.ReadConfig('./config/config.json');
@@ -48,7 +49,7 @@ export default class UserInfoService {
      * @param pxrId
      * @param operator
      */
-    static async getUserInfo (pxrId: string, userId: string, operator: AuthMe) {
+    public async getUserInfo (pxrId: string, userId: string, appCode: number, regionCode: number, operator: AuthMe) {
         const data = await (async () => {
             if (operator.type === OperatorType.TYPE_IND) {
                 return new OperatorRepository(getConnection('postgres')).getRecordFromPxrId(operator.pxrId);
@@ -56,7 +57,8 @@ export default class UserInfoService {
                 if (pxrId) {
                     return new OperatorRepository(getConnection('postgres')).getRecordFromPxrId(pxrId);
                 } else {
-                    return new OperatorRepository(getConnection('postgres')).getRecordFromUserId(userId);
+                    const ret = await this.getRecordFromUserIdAndServiceCode(operator, appCode, regionCode, userId);
+                    return ret;
                 }
             }
         })();
@@ -321,7 +323,8 @@ export default class UserInfoService {
             if (serviceDto.getPxrId()) {
                 return new OperatorRepository(getConnection('postgres')).getRecordFromPxrId(serviceDto.getPxrId());
             } else {
-                return new OperatorRepository(getConnection('postgres')).getRecordFromUserId(serviceDto.getUserId());
+                const ret = await this.getRecordFromUserIdAndServiceCode(operator, serviceDto.getAppCode(), serviceDto.getRegionCode(), serviceDto.getUserId());
+                return ret;
             }
         })();
         if (!operatorData) {
@@ -398,7 +401,8 @@ export default class UserInfoService {
             if (serviceDto.getPxrId()) {
                 return new OperatorRepository(getConnection('postgres')).getRecordFromPxrId(serviceDto.getPxrId());
             } else {
-                return new OperatorRepository(getConnection('postgres')).getRecordFromUserId(serviceDto.getUserId());
+                const ret = await this.getRecordFromUserIdAndServiceCode(operator, serviceDto.getAppCode(), serviceDto.getRegionCode(), serviceDto.getUserId());
+                return ret;
             }
         })();
         if (!operatorData) {
@@ -420,6 +424,22 @@ export default class UserInfoService {
         } : {
             userId: serviceDto.getUserId()
         };
+    }
+
+    /**
+     * userIdとサービスコードからオペレータテーブルのレコードを取得する
+     * @param operator
+     * @param appCode
+     * @param regionCode
+     * @param userId
+     * @returns オペレータテーブルのレコード
+     */
+    private async getRecordFromUserIdAndServiceCode (operator: AuthMe, appCode: number, regionCode: number, userId: string) {
+        // オペレータの所属Block判別
+        const operatorBlockType = await OperatorService.getOperatorBlockType(operator);
+        // userId, appCode, regionCodeを用いてオペレータレコードを取得
+        const ret = new OperatorRepository(getConnection('postgres')).getRecordFromUserId(userId, appCode, regionCode, operatorBlockType);
+        return ret;
     }
 
     /**

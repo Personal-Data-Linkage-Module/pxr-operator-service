@@ -149,6 +149,7 @@ export default class Common {
      */
     public async executeSqlString (sql: string) {
         // DBを初期化
-        await getConnection('postgres').query(sql);
+        const res = await getConnection('postgres').query(sql);
+        return res;
     }
 }

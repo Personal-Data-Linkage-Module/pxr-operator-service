@@ -2,7 +2,7 @@
 # Released under the MIT license.
 # https://opensource.org/licenses/mit-license.php
 #
-FROM node:12-bullseye
+FROM node:18-bullseye
 
 WORKDIR /usr/src/app
 

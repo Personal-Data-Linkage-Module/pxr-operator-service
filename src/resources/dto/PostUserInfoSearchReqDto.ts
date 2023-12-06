@@ -36,7 +36,7 @@ export class CodeVersionObject {
     @IsNumber()
     @IsNotEmpty()
     @IsDefined()
-    _value: number;
+        _value: number;
 
     /**
      * バージョン
@@ -44,7 +44,7 @@ export class CodeVersionObject {
     @Transform(transformToNumber)
     @IsNumber()
     @IsDefined()
-    _ver: number;
+        _ver: number;
 }
 
 export class Condition {
@@ -55,7 +55,7 @@ export class Condition {
     @IsNotEmpty()
     @Type(() => CodeVersionObject)
     @ValidateNested()
-    type: CodeVersionObject;
+        type: CodeVersionObject;
 
     /**
      * 対象データカタログコード
@@ -63,7 +63,7 @@ export class Condition {
     @IsOptional()
     @Type(() => CodeVersionObject)
     @ValidateNested()
-    target: CodeVersionObject;
+        target: CodeVersionObject;
 
     /**
      * 最小値
@@ -71,7 +71,7 @@ export class Condition {
     @IsOptional()
     @Transform(transformToNumber)
     @IsNumber()
-    min: number;
+        min: number;
 
     /**
      * 最大値
@@ -79,7 +79,7 @@ export class Condition {
     @IsOptional()
     @Transform(transformToNumber)
     @IsNumber()
-    max: number;
+        max: number;
 }
 
 export default class PostUserInfoSearchReqDto {
@@ -91,7 +91,7 @@ export default class PostUserInfoSearchReqDto {
     @IsArray()
     @Type(() => Condition)
     @ValidateNested({ each: true })
-    condition: Condition[];
+        condition: Condition[];
 
     /**
      * 最小対象人数
@@ -100,7 +100,7 @@ export default class PostUserInfoSearchReqDto {
     @IsNotEmpty()
     @Transform(transformToNumber)
     @IsNumber()
-    min: number;
+        min: number;
 
     /**
      * 最大対象人数
@@ -108,5 +108,5 @@ export default class PostUserInfoSearchReqDto {
     @IsOptional()
     @Transform(transformToNumber)
     @IsNumber()
-    max: number;
+        max: number;
 }

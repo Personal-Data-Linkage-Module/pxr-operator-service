@@ -8,10 +8,10 @@ export default class {
     @IsOptional()
     @IsNotEmpty()
     @IsString()
-    userId: string;
+        userId: string;
 
     @IsOptional()
     @IsNotEmpty()
     @IsString()
-    pxrId: string;
+        pxrId: string;
 }

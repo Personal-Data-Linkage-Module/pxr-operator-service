@@ -298,7 +298,7 @@ describe('operator API', () => {
             });
 
             // 送信データを生成
-            var json = JSON.stringify({
+            const json = JSON.stringify({
                 loginId: 'manage_member02_update4'
             });
 

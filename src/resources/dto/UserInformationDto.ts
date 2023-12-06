@@ -20,49 +20,49 @@ export class CodeObject {
     @IsDefined()
     @IsNumber()
     @Transform(transformToNumber)
-    _value: number;
+        _value: number;
 
     @IsDefined()
     @IsNumber()
     @Transform(transformToNumber)
-    _ver: number;
+        _ver: number;
 }
 
 export class Item {
     @IsNotEmpty()
     @IsString()
-    title: string;
+        title: string;
 
     @IsDefined()
     @Type(() => CodeObject)
     @ValidateNested()
     @IsNotEmptyObject()
-    type: CodeObject;
+        type: CodeObject;
 
     @IsOptional()
-    content: string | boolean | number | undefined | null;
+        content: string | boolean | number | undefined | null;
 
     @IsBoolean()
     @IsOptional()
     @Transform(transformToBooleanFromString)
-    'changeable-flag': boolean;
+        'changeable-flag': boolean;
 
     @IsOptional()
     @IsBoolean()
     @Transform(transformToBooleanFromString)
-    'require-sms-verification': boolean;
+        'require-sms-verification': boolean;
 }
 
 export class ItemGroup {
     @IsNotEmpty()
     @IsString()
-    title: string;
+        title: string;
 
     @IsDefined()
     @IsArray()
     @Type(() => Item)
     @ValidateNested({ each: true })
-    item: Item[]
+        item: Item[];
 }
 
 export default class {
@@ -70,11 +70,11 @@ export default class {
     @Type(() => CodeObject)
     @ValidateNested()
     @IsNotEmptyObject()
-    _code: CodeObject;
+        _code: CodeObject;
 
     @IsDefined()
     @IsArray()
     @Type(() => ItemGroup)
     @ValidateNested({ each: true })
-    'item-group': ItemGroup[];
+        'item-group': ItemGroup[];
 }

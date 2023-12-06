@@ -10,5 +10,5 @@ export default class {
     @IsNumber()
     @IsDefined()
     @Transform(transformToNumber)
-    operatorId: number;
+        operatorId: number;
 }

@@ -63,13 +63,15 @@ export default class UserInfoService {
         if (!data) {
             throw new AppError(Message.OPERATOR_NOT_EXISTS, ResponseCode.NO_CONTENT);
         }
-        return data.pxrId ? {
-            pxrId: data.pxrId,
-            userInfo: data.userInformation
-        } : {
-            userId: data.userId,
-            userInfo: data.userInformation
-        };
+        return data.pxrId
+            ? {
+                pxrId: data.pxrId,
+                userInfo: data.userInformation
+            }
+            : {
+                userId: data.userId,
+                userInfo: data.userInformation
+            };
     }
 
     /**
@@ -169,7 +171,7 @@ export default class UserInfoService {
             // カタログのUserInformationを確認、changable-flagを確認し
             // `変更可能な`アイテムリストを形成する
             const userInfoCode = Number(configure['userInfoCatalogCode']);
-            var { smsVerificateFlg, changeableItemList }: { smsVerificateFlg: boolean; changeableItemList: number[]; } =
+            let { smsVerificateFlg, changeableItemList }: { smsVerificateFlg: boolean; changeableItemList: number[]; } =
                 await UserInfoService.getChangeableItemList(operator, userInfoCode);
 
             // 電話番号が変更可能かつ電話番号の変更に対してSMS検証が必要な場合、変更前の電話番号を取得する
@@ -350,11 +352,13 @@ export default class UserInfoService {
             }
         });
 
-        return serviceDto.getPxrId() ? {
-            pxrId: serviceDto.getPxrId()
-        } : {
-            userId: serviceDto.getUserId()
-        };
+        return serviceDto.getPxrId()
+            ? {
+                pxrId: serviceDto.getPxrId()
+            }
+            : {
+                userId: serviceDto.getUserId()
+            };
     }
 
     private async checkInputPattern (dto: UserInformationDto, operator: AuthMe) {
@@ -415,11 +419,13 @@ export default class UserInfoService {
             await userInformationRepository.deleteUserInformation(trans, operatorData.id, operator.loginId);
         });
 
-        return serviceDto.getPxrId() ? {
-            pxrId: serviceDto.getPxrId()
-        } : {
-            userId: serviceDto.getUserId()
-        };
+        return serviceDto.getPxrId()
+            ? {
+                pxrId: serviceDto.getPxrId()
+            }
+            : {
+                userId: serviceDto.getUserId()
+            };
     }
 
     /**

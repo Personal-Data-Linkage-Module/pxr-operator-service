@@ -101,7 +101,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 loginId: 'manage_member02_update',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
                 newHpassword: 'cd08374a2f7d9827ac1e592e497bf0268b0d2af4a84e1d55c690348012202948',

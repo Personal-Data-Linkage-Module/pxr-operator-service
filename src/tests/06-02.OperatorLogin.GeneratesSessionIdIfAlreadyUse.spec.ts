@@ -113,7 +113,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'

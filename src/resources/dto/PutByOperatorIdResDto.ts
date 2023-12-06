@@ -48,12 +48,12 @@ export default class PutByOperatorIdResDto {
     /**
      * パスワード変更フラグ
      */
-    public pcFlg: boolean | null= null;
+    public pcFlg: boolean | null = null;
 
     /**
      * ログイン不可フラグ
      */
-    public lpFlg: boolean | null= null;
+    public lpFlg: boolean | null = null;
 
     /**
      * 権限

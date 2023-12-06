@@ -10,50 +10,50 @@ export class CodeObject {
     @IsDefined()
     @IsNumber()
     @Transform(transformToNumber)
-    _value: number;
+        _value: number;
 
     @IsDefined()
     @IsNumber()
     @Transform(transformToNumber)
-    _ver: number;
+        _ver: number;
 }
 
 export class Item {
     @IsDefined()
     @IsString()
     @IsNotEmpty()
-    title: string;
+        title: string;
 
     @IsDefined()
     @Type(() => CodeObject)
     @ValidateNested()
     @IsNotEmptyObject()
-    type: CodeObject;
+        type: CodeObject;
 
     @IsDefined()
-    content: string | boolean | number;
+        content: string | boolean | number;
 
     @IsOptional()
     @IsBoolean()
     @Transform(transformToBooleanFromString)
-    'changable-flag': boolean;
+        'changable-flag': boolean;
 
     @IsOptional()
     @IsBoolean()
     @Transform(transformToBooleanFromString)
-    'require-sms-verification': boolean;
+        'require-sms-verification': boolean;
 }
 
 export class ItemGroup {
     @IsNotEmpty()
     @IsString()
-    title: string;
+        title: string;
 
     @IsDefined()
     @IsArray()
     @Type(() => Item)
     @ValidateNested({ each: true })
-    item: Item[]
+        item: Item[];
 }
 
 export class Identification {
@@ -61,13 +61,13 @@ export class Identification {
     @Type(() => CodeObject)
     @ValidateNested()
     @IsNotEmptyObject()
-    _code: CodeObject;
+        _code: CodeObject;
 
     @IsDefined()
     @IsArray()
     @Type(() => ItemGroup)
     @ValidateNested({ each: true })
-    'item-group': ItemGroup[];
+        'item-group': ItemGroup[];
 }
 
 export default class PostIndSmsVerificateReqDto {
@@ -75,5 +75,5 @@ export default class PostIndSmsVerificateReqDto {
     @IsNotEmptyObject()
     @Type(() => Identification)
     @ValidateNested()
-    userInformation: Identification;
+        userInformation: Identification;
 }

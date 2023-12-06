@@ -10,56 +10,56 @@ export class CodeObject {
     @IsNumber()
     @IsDefined()
     @Transform(transformToNumber)
-    _value: number;
+        _value: number;
 
     @IsNumber()
     @IsDefined()
     @Transform(transformToNumber)
-    _ver: number;
+        _ver: number;
 }
 
 export default class PutByOperatorIdReqDto {
     @IsOptional()
     @IsHash('sha256')
     @IsNotEmpty()
-    hpassword: string;
+        hpassword: string;
 
     @IsOptional()
     @IsHash('sha256')
     @IsNotEmpty()
-    newHpassword: string;
+        newHpassword: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    loginId: string;
+        loginId: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    mobilePhone: string;
+        mobilePhone: string;
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    name: string;
+        name: string;
 
     @IsBoolean()
     @IsOptional()
     @Transform(transformToBooleanFromString)
-    loginProhibitedFlg: boolean = null;
+        loginProhibitedFlg: boolean = null;
 
     @IsObject()
     @IsOptional()
-    attributes: any;
+        attributes: any;
 
     @IsObject()
     @IsOptional()
-    auth: any;
+        auth: any;
 
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(type => CodeObject)
     @IsArray()
-    roles: CodeObject[];
+        roles: CodeObject[];
 }

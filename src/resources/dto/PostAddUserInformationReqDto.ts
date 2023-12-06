@@ -9,15 +9,15 @@ import { Type } from 'class-transformer';
 export default class {
     @IsString()
     @IsOptional()
-    pxrId: string;
+        pxrId: string;
 
     @IsString()
     @IsOptional()
-    userId: string;
+        userId: string;
 
     @IsDefined()
     @Type(() => UserInformationDto)
     @ValidateNested()
     @IsNotEmptyObject()
-    userInfo: UserInformationDto;
+        userInfo: UserInformationDto;
 }

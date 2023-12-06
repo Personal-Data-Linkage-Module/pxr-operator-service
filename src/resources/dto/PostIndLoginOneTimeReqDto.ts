@@ -18,6 +18,6 @@ export default class PostIndLoginOneTimeReqDto {
 
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
         type: number;
 }

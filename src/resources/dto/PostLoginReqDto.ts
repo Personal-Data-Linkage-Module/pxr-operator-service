@@ -17,6 +17,6 @@ export default class PostLoginReqDto {
 
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
         type: number;
 }

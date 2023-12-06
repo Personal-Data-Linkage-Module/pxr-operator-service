@@ -13,6 +13,6 @@ export default class PostSessionReqDto {
 
     @IsBoolean()
     @IsOptional()
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
         extendFlg: boolean = false;
 }

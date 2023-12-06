@@ -12,7 +12,7 @@ export default class PostOperatorAddReqDto {
     @IsNumber()
     @IsDefined()
     @IsIn([OperatorType.TYPE_IND, OperatorType.TYPE_APP, OperatorType.TYPE_MANAGE_MEMBER])
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
         type: number;
 
     @IsString()
@@ -54,7 +54,7 @@ export default class PostOperatorAddReqDto {
 
     @IsBoolean()
     @IsOptional()
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
         loginProhibitedFlg: boolean = null;
 
     @IsOptional()

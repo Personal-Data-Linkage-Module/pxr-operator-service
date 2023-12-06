@@ -9,12 +9,12 @@ import { transformToNumber, transformToBooleanFromString } from '../../common/Tr
 export class CodeObject {
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
         _value: number;
 
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value); })
         _ver: number;
 }
 
@@ -46,7 +46,7 @@ export default class PutByOperatorIdReqDto {
 
     @IsBoolean()
     @IsOptional()
-    @Transform(transformToBooleanFromString)
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
         loginProhibitedFlg: boolean = null;
 
     @IsObject()

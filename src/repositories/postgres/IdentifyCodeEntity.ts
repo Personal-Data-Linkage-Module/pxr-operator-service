@@ -8,39 +8,39 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 export default class IdentifyCodeEntity {
     /** ID */
     @PrimaryGeneratedColumn({ type: 'bigint' })
-    id: number;
+        id: number;
 
     /** コード */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'code' })
-    code: string;
+        code: string;
 
     /** PXR-ID */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'pxr_id' })
-    pxrId: string;
+        pxrId: string;
 
     /** 有効期限 */
     @Column({ type: 'timestamp without time zone', nullable: false, name: 'expiration_at' })
-    expirationAt: Date;
+        expirationAt: Date;
 
     /** 無効フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /** 登録者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /** 登録日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', nullable: false, default: 'NOW()', name: 'created_at' })
-    createdAt: Date = new Date();
+        createdAt: Date = new Date();
 
     /** 更新者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /** 更新日時 */
     @UpdateDateColumn({ type: 'timestamp without time zone', nullable: false, default: 'NOW()', onUpdate: 'NOW()', name: 'updated_at' })
-    updatedAt: Date = new Date();
+        updatedAt: Date = new Date();
 
     /**
      * コンストラクタ

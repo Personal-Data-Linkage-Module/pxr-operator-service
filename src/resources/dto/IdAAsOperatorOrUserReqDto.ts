@@ -10,22 +10,22 @@ export default class {
     @IsOptional()
     @IsNotEmpty()
     @IsString()
-    userId: string;
+        userId: string;
 
     @IsOptional()
     @IsNotEmpty()
     @IsString()
-    pxrId: string;
+        pxrId: string;
 
     @IsNumber()
     @IsOptional()
     @Max(Number.MAX_SAFE_INTEGER)
-    @Transform(transformToNumber)
-    appCode: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        appCode: number;
 
     @IsNumber()
     @IsOptional()
     @Max(Number.MAX_SAFE_INTEGER)
-    @Transform(transformToNumber)
-    regionCode: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        regionCode: number;
 }

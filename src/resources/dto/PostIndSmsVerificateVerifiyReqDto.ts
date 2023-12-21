@@ -8,5 +8,5 @@ export default class PostIndSmsVerificateVerifiyReqDto {
     @IsDefined()
     @IsString()
     @IsNotEmpty()
-    smsVerificationCode: string;
+        smsVerificationCode: string;
 }

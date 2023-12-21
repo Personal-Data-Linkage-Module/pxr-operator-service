@@ -12,66 +12,66 @@ export default class PostOperatorAddReqDto {
     @IsNumber()
     @IsDefined()
     @IsIn([OperatorType.TYPE_IND, OperatorType.TYPE_APP, OperatorType.TYPE_MANAGE_MEMBER])
-    @Transform(transformToNumber)
-    type: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        type: number;
 
     @IsString()
     @IsNotEmpty()
-    loginId: string;
-
-    @IsString()
-    @IsOptional()
-    @IsNotEmpty()
-    pxrId: string;
+        loginId: string;
 
     @IsString()
     @IsOptional()
     @IsNotEmpty()
-    userId: string;
+        pxrId: string;
+
+    @IsString()
+    @IsOptional()
+    @IsNotEmpty()
+        userId: string;
 
     @IsHash('sha256')
     @IsOptional()
     @IsNotEmpty()
-    hpassword: string;
+        hpassword: string;
 
     @IsString()
     @IsOptional()
     @IsNotEmpty()
-    mobilePhone: string;
+        mobilePhone: string;
 
     @IsString()
     @IsOptional()
     @IsNotEmpty()
-    name: string;
+        name: string;
 
     @IsObject()
     @IsOptional()
-    auth: any = {};
+        auth: any = {};
 
     @IsObject()
     @IsOptional()
-    attributes: any = {};
+        attributes: any = {};
 
     @IsBoolean()
     @IsOptional()
-    @Transform(transformToBooleanFromString)
-    loginProhibitedFlg: boolean = null;
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
+        loginProhibitedFlg: boolean = null;
 
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(type => CodeObject)
     @IsArray()
-    roles: CodeObject[] = [];
+        roles: CodeObject[] = [];
 
     @IsNumber()
     @IsOptional()
-    regionCatalogCode: number;
+        regionCatalogCode: number;
 
     @IsNumber()
     @IsOptional()
-    appCatalogCode: number;
+        appCatalogCode: number;
 
     @IsNumber()
     @IsOptional()
-    wfCatalogCode: number;
+        wfCatalogCode: number;
 }

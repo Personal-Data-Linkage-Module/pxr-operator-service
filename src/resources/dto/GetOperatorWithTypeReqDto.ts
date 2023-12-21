@@ -18,7 +18,7 @@ import { transformToNumber } from '../../common/Transform';
 export default class {
     @IsNumber()
     @IsOptional()
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value) })
     type: number;
 
     @IsString()
@@ -39,12 +39,12 @@ export default class {
     @IsNumber()
     @IsOptional()
     @Max(Number.MAX_SAFE_INTEGER)
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value) })
     appCode: number;
 
     @IsNumber()
     @IsOptional()
     @Max(Number.MAX_SAFE_INTEGER)
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value) })
     regionCode: number;
 }

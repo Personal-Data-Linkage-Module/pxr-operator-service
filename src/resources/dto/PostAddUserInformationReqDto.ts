@@ -10,27 +10,27 @@ import { transformToNumber } from '../../common/Transform';
 export default class {
     @IsString()
     @IsOptional()
-    pxrId: string;
+        pxrId: string;
 
     @IsString()
     @IsOptional()
-    userId: string;
+        userId: string;
 
     @IsDefined()
     @Type(() => UserInformationDto)
     @ValidateNested()
     @IsNotEmptyObject()
-    userInfo: UserInformationDto;
+        userInfo: UserInformationDto;
 
     @IsNumber()
     @IsOptional()
     @Max(Number.MAX_SAFE_INTEGER)
-    @Transform(transformToNumber)
-    appCode: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        appCode: number;
 
     @IsNumber()
     @IsOptional()
     @Max(Number.MAX_SAFE_INTEGER)
-    @Transform(transformToNumber)
-    regionCode: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        regionCode: number;
 }

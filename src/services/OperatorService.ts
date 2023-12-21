@@ -64,9 +64,12 @@ export default class OperatorService {
     public static async getSession (req: Request) {
         const authMe = new AuthMe();
         const sessionId = req.cookies.operator_type0_session
-            ? req.cookies.operator_type0_session : req.cookies.operator_type2_session
-                ? req.cookies.operator_type2_session : req.cookies.operator_type3_session
-                    ? req.cookies.operator_type3_session : null;
+            ? req.cookies.operator_type0_session
+            : req.cookies.operator_type2_session
+                ? req.cookies.operator_type2_session
+                : req.cookies.operator_type3_session
+                    ? req.cookies.operator_type3_session
+                    : null;
         if (req.headers.session) {
             const [isExternal, isBetweenBlocks, isWithinBlock] = await Promise.all([
                 OperatorService.judgeExternal(req.headers),
@@ -184,7 +187,7 @@ export default class OperatorService {
         const loginId = serviceDto.getLoginId();
         const pxrId = serviceDto.getPxrId();
         // operatorテーブルを検索する
-        var { operatorData, operatorDataList }: { operatorData: OperatorEntity, operatorDataList: Array<OperatorEntity> } =
+        const { operatorData, operatorDataList }: { operatorData: OperatorEntity, operatorDataList: Array<OperatorEntity> } =
             await this.getOperatorData(serviceDto, operatorRepository);
 
         // ロールデータの取得
@@ -580,7 +583,7 @@ export default class OperatorService {
                 const catalogVersion = parseInt(reqRole['_ver']);
                 const catalogInfo = await catalog.getCatalog(authMe, catalogUrl, catalogCode, catalogVersion);
                 // アプリケーションかどうか確認する
-                const regex = new RegExp('/app/.+/application', 'g');
+                const regex = new RegExp('/app/.+/application', 'g'); // eslint-disable-line prefer-regex-literals
                 if (!catalogInfo['catalogItem']['ns'].match(regex)) {
                     throw new AppError(Message.NOT_ROLE_CATALOG, ResponseCode.BAD_REQUEST);
                 }
@@ -651,7 +654,7 @@ export default class OperatorService {
         }
 
         // ヘッダーにセッション情報がある場合
-        var { register, updaterType, updaterAuth } : { register: string, updaterType: number, updaterAuth: any } =
+        const { register, updaterType, updaterAuth } : { register: string, updaterType: number, updaterAuth: any } =
             await this.getSessionInfoForUpdate(serviceDto, authMe, sessionRepository, operatorRepository);
 
         let loginId: string | null = null;
@@ -1088,7 +1091,7 @@ export default class OperatorService {
         target = operatorData;
 
         // 操作実行者、セッション情報を取得
-        var { register, authMe }: { register: string, authMe: AuthMe } = await this.getSessionInfoForDelete(req, reqOperatorId, configure, sessionRepository, operatorData, operatorRepository, target);
+        const { register, authMe }: { register: string, authMe: AuthMe } = await this.getSessionInfoForDelete(req, reqOperatorId, configure, sessionRepository, operatorData, operatorRepository, target);
 
         // トランザクションの開始
         await connection.transaction(async trans => {
@@ -1263,8 +1266,8 @@ export default class OperatorService {
                 const catalogVersion = role.roleCatalogVersion;
                 const catalogInfo = await catalog.getCatalog(authMe, catalogUrl, catalogCode, catalogVersion);
                 // アプリケーションか確認する
-                const appRegex = new RegExp('/app/.+/application', 'g');
-                const wfRegex = new RegExp('/wf/.+/role', 'g');
+                const appRegex = new RegExp('/app/.+/application', 'g'); // eslint-disable-line prefer-regex-literals
+                const wfRegex = new RegExp('/wf/.+/role', 'g'); // eslint-disable-line prefer-regex-literals
                 if (catalogInfo['catalogItem']['ns'].match(appRegex)) {
                     appCodes.push(catalogCode);
                 } else if (catalogInfo['catalogItem']['ns'].match(wfRegex)) {

@@ -6,5 +6,5 @@ import { IsString } from 'class-validator';
 
 export default class PostLogoutReqDto {
     @IsString()
-    sessionId: string = '';
+        sessionId: string = '';
 }

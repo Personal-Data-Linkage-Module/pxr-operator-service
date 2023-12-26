@@ -41,6 +41,12 @@ export default class implements ExpressMiddlewareInterface {
             if (dto.userId && dto.pxrId) {
                 throw new AppError(this.message.DO_NOT_SET_BOTH_IDS, 400);
             }
+            if (dto.userId && (!dto.appCode && !dto.regionCode)) {
+                throw new AppError(this.message.NO_WF_APP_REGION, 400);
+            }
+            if (dto.appCode && dto.regionCode) {
+                throw new AppError(this.message.SET_WF_APP_REGION, 400);
+            }
         }
 
         next();

@@ -12,95 +12,95 @@ export default class OperatorEntity extends BaseEntity {
 
     /** 種別 */
     @Column({ type: 'smallint', nullable: false, default: 0, name: 'type' })
-    type: number;
+        type: number;
 
     /** ログインID */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'login_id' })
-    loginId: string;
+        loginId: string;
 
     /** ハッシュパスワード */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'hpassword' })
-    hpassword: string;
+        hpassword: string;
 
     /** PXR-ID */
     @Column({ type: 'varchar', length: 255, name: 'pxr_id' })
-    pxrId: string;
+        pxrId: string;
 
     /** 利用者情報 */
     @Column({ type: 'text', name: 'user_information' })
-    userInformation: string;
+        userInformation: string;
 
     /** 表示名 */
     @Column({ type: 'varchar', length: 255, name: 'name' })
-    name: string;
+        name: string;
 
     /** 携帯電話番号 */
     @Column({ type: 'varchar', length: 255, name: 'mobile_phone' })
-    mobilePhone: string;
+        mobilePhone: string;
 
     /** メールアドレス */
     @Column({ type: 'varchar', length: 255, name: 'mail' })
-    mail: string;
+        mail: string;
 
     /** 権限 */
     @Column({ type: 'text', name: 'auth' })
-    auth: any = null;
+        auth: any = null;
 
     /** 前回ログイン日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', name: 'last_login_at' })
-    lastLoginAt: Date;
+        lastLoginAt: Date;
 
     /** パスワード変更フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'password_changed_flg' })
-    passwordChangedFlg: boolean;
+        passwordChangedFlg: boolean;
 
     /** ログイン不可フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'login_prohibited_flg' })
-    loginProhibitedFlg: boolean;
+        loginProhibitedFlg: boolean;
 
     /** その他属性 */
     @Column({ type: 'text', name: 'attributes' })
-    attributes: any;
+        attributes: any;
 
     /** アカウントロックフラグ */
     @Column({ type: 'boolean', name: 'lock_flg', nullable: false })
-    lockFlg: boolean;
+        lockFlg: boolean;
 
     /** アカウントロック開始日時 */
     @Column({ type: 'timestamp without time zone', default: null, name: 'lock_start_at' })
-    lockStartAt: Date;
+        lockStartAt: Date;
 
     /** パスワード更新日時 */
     @Column({ type: 'timestamp without time zone', default: null, name: 'password_updated_at' })
-    passwordUpdatedAt: Date;
+        passwordUpdatedAt: Date;
 
     /** 利用者ID */
     @Column({ type: 'varchar', length: 255, name: 'user_id' })
-    userId: string;
+        userId: string;
 
     /** Regionカタログコード */
     @Column({ type: 'bigint', name: 'region_catalog_code' })
-    regionCatalogCode: number;
+        regionCatalogCode: number;
 
     /** APPカタログコード */
     @Column({ type: 'bigint', name: 'app_catalog_code' })
-    appCatalogCode: number;
+        appCatalogCode: number;
 
     /** WFカタログコード */
     @Column({ type: 'bigint', name: 'wf_catalog_code' })
-    wfCatalogCode: number;
+        wfCatalogCode: number;
 
     /** クライアントID */
     @Column({ type: 'varchar', length: 255, name: 'client_id' })
-    clientId: string;
+        clientId: string;
 
     /** 無効フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /** 登録者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /** 登録日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', name: 'created_at' })
@@ -108,7 +108,7 @@ export default class OperatorEntity extends BaseEntity {
 
     /** 更新者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /** 更新日時 */
     @UpdateDateColumn({ type: 'timestamp without time zone', name: 'updated_at', onUpdate: 'now()' })
@@ -116,7 +116,7 @@ export default class OperatorEntity extends BaseEntity {
 
     /** 一意性制約チェック列：login_id */
     @Column({ type: 'text', nullable: false, name: 'unique_check_login_id' })
-    uniqueCheckLoginId: string = '';
+        uniqueCheckLoginId: string = '';
 
     /**
      * コンストラクタ

@@ -33,6 +33,12 @@ export default class PostUserInfoRequestValidator implements ExpressMiddlewareIn
         if (dto.userId && dto.pxrId) {
             throw new AppError(Message.DO_NOT_SET_BOTH_IDS, 400);
         }
+        if (dto.userId && (!dto.appCode && !dto.regionCode)) {
+            throw new AppError(Message.NO_WF_APP_REGION, 400);
+        }
+        if (dto.appCode && dto.regionCode) {
+            throw new AppError(Message.SET_WF_APP_REGION, 400);
+        }
 
         next();
     }

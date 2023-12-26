@@ -50,6 +50,13 @@ const applicationLogger: log4js.Logger = log4js.getLogger('application');
 
 @Service()
 export default class OperatorService {
+    // SDE-IMPL-REQUIRED サービスレイヤの処理を以下に実装します。
+    static BLOCK_TYPE_ROOT: string = 'pxr-root';
+    static BLOCK_TYPE_APP: string = 'app';
+    static BLOCK_TYPE_REGION: string = 'region-root';
+    static BLOCK_TYPE_TRADER: string = 'data-trader';
+    static BLOCK_TYPE_CONSUMER: string = 'consumer';
+
     /**
      * セッションデータを取得する
      * @param req
@@ -57,9 +64,12 @@ export default class OperatorService {
     public static async getSession (req: Request) {
         const authMe = new AuthMe();
         const sessionId = req.cookies.operator_type0_session
-            ? req.cookies.operator_type0_session : req.cookies.operator_type2_session
-                ? req.cookies.operator_type2_session : req.cookies.operator_type3_session
-                    ? req.cookies.operator_type3_session : null;
+            ? req.cookies.operator_type0_session
+            : req.cookies.operator_type2_session
+                ? req.cookies.operator_type2_session
+                : req.cookies.operator_type3_session
+                    ? req.cookies.operator_type3_session
+                    : null;
         if (req.headers.session) {
             const [isExternal, isBetweenBlocks, isWithinBlock] = await Promise.all([
                 OperatorService.judgeExternal(req.headers),
@@ -160,7 +170,7 @@ export default class OperatorService {
     }
 
     /**
-     * 取得（オペレーターID,type,loginId指定）
+     * 取得（オペレーターID,type,loginId, wf/app/regionCode指定）
      * @param connection
      * @param serviceDto
      * リファクタ履歴
@@ -177,7 +187,7 @@ export default class OperatorService {
         const loginId = serviceDto.getLoginId();
         const pxrId = serviceDto.getPxrId();
         // operatorテーブルを検索する
-        var { operatorData, operatorDataList }: { operatorData: OperatorEntity, operatorDataList: Array<OperatorEntity> } =
+        const { operatorData, operatorDataList }: { operatorData: OperatorEntity, operatorDataList: Array<OperatorEntity> } =
             await this.getOperatorData(serviceDto, operatorRepository);
 
         // ロールデータの取得
@@ -235,6 +245,8 @@ export default class OperatorService {
         const loginId = serviceDto.getLoginId();
         const type = serviceDto.getType();
         const pxrId = serviceDto.getPxrId();
+        const appCode = serviceDto.getAppCode();
+        const regionCode = serviceDto.getRegionCode();
         const session = serviceDto.getSession();
         let operatorData: OperatorEntity = null;
         let operatorDataList: Array<OperatorEntity> = [];
@@ -252,15 +264,18 @@ export default class OperatorService {
         } else if ((type >= 0) && (loginId)) {
             // typeとloginIdがある場合
             // 自分以外への操作の場合
+            let operatorBlockType: string = null;
             if (session['loginId'] !== String(loginId)) {
                 // 運営メンバー以外の場合エラー
                 if (session['type'] !== OperatorType.TYPE_MANAGE_MEMBER) {
                     // エラーレスポンス
                     throw new AppError(Message.NOT_OPERATION_AUTH, ResponseCode.UNAUTHORIZED);
                 }
+                // オペレータの所属Blockを取得
+                operatorBlockType = await OperatorService.getOperatorBlockType(session);
             }
 
-            operatorData = await operatorRepository.getRecordFromLoginId(type, loginId);
+            operatorData = await operatorRepository.getRecordFromLoginId(type, loginId, appCode, regionCode, operatorBlockType);
         } else if (pxrId) {
             // pxrIdがある場合
             // 自分以外への操作の場合
@@ -568,7 +583,7 @@ export default class OperatorService {
                 const catalogVersion = parseInt(reqRole['_ver']);
                 const catalogInfo = await catalog.getCatalog(authMe, catalogUrl, catalogCode, catalogVersion);
                 // アプリケーションかどうか確認する
-                const regex = new RegExp('/app/.+/application', 'g');
+                const regex = new RegExp('/app/.+/application', 'g'); // eslint-disable-line prefer-regex-literals
                 if (!catalogInfo['catalogItem']['ns'].match(regex)) {
                     throw new AppError(Message.NOT_ROLE_CATALOG, ResponseCode.BAD_REQUEST);
                 }
@@ -639,7 +654,7 @@ export default class OperatorService {
         }
 
         // ヘッダーにセッション情報がある場合
-        var { register, updaterType, updaterAuth } : { register: string, updaterType: number, updaterAuth: any } =
+        const { register, updaterType, updaterAuth } : { register: string, updaterType: number, updaterAuth: any } =
             await this.getSessionInfoForUpdate(serviceDto, authMe, sessionRepository, operatorRepository);
 
         let loginId: string | null = null;
@@ -1076,7 +1091,7 @@ export default class OperatorService {
         target = operatorData;
 
         // 操作実行者、セッション情報を取得
-        var { register, authMe }: { register: string, authMe: AuthMe } = await this.getSessionInfoForDelete(req, reqOperatorId, configure, sessionRepository, operatorData, operatorRepository, target);
+        const { register, authMe }: { register: string, authMe: AuthMe } = await this.getSessionInfoForDelete(req, reqOperatorId, configure, sessionRepository, operatorData, operatorRepository, target);
 
         // トランザクションの開始
         await connection.transaction(async trans => {
@@ -1251,8 +1266,8 @@ export default class OperatorService {
                 const catalogVersion = role.roleCatalogVersion;
                 const catalogInfo = await catalog.getCatalog(authMe, catalogUrl, catalogCode, catalogVersion);
                 // アプリケーションか確認する
-                const appRegex = new RegExp('/app/.+/application', 'g');
-                const wfRegex = new RegExp('/wf/.+/role', 'g');
+                const appRegex = new RegExp('/app/.+/application', 'g'); // eslint-disable-line prefer-regex-literals
+                const wfRegex = new RegExp('/wf/.+/role', 'g'); // eslint-disable-line prefer-regex-literals
                 if (catalogInfo['catalogItem']['ns'].match(appRegex)) {
                     appCodes.push(catalogCode);
                 } else if (catalogInfo['catalogItem']['ns'].match(wfRegex)) {
@@ -1445,5 +1460,33 @@ export default class OperatorService {
         if (count > 0) {
             throw new AppError(Message.LOGIN_ID_ALREADY, ResponseCode.BAD_REQUEST);
         }
+    }
+
+    /**
+     * アクターカタログのNSからオペレータの所属Blockを判別する
+     * @param operator
+     * @param message
+     * @returns
+     */
+    static async getOperatorBlockType (session: AuthMe) {
+        // セッション情報のアクターコードからアクターカタログを取得
+        const actorCode = session.actorCode;
+        if (!actorCode) {
+            throw new AppError(Message.REQUIRE_SESSION_ACTOR, ResponseCode.UNAUTHORIZED);
+        }
+        const catalogService = new Catalog();
+        const catalogUrl = config['catalog_url'];
+        const actorCatalog = await catalogService.getCatalog(session, catalogUrl, actorCode);
+        if (!actorCatalog || !actorCatalog['catalogItem'] || !actorCatalog['catalogItem']['ns']) {
+            throw new AppError(Message.NOT_FOUND_ACTOR_CATALOG, ResponseCode.UNAUTHORIZED);
+        }
+        // NSの末尾から所属block種を取得
+        const ns: string = actorCatalog['catalogItem']['ns'];
+        const blockType = ns.slice(ns.lastIndexOf('/') + 1);
+        // 所属blockが'app', 'region-root', 'pxr-root', 'data-trader', 'consumer'以外の場合エラー
+        if (![OperatorService.BLOCK_TYPE_APP, this.BLOCK_TYPE_REGION, this.BLOCK_TYPE_ROOT, this.BLOCK_TYPE_TRADER, this.BLOCK_TYPE_CONSUMER].includes(blockType)) {
+            throw new AppError(Message.INVALID_OPERATOR_BLOCK_TYPE, ResponseCode.UNAUTHORIZED);
+        }
+        return blockType;
     }
 }

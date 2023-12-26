@@ -112,6 +112,41 @@ export namespace Session {
     };
 
     /**
+    * 正常(region運営)
+    */
+    export const pxrRegion = {
+        sessionId: 'sessionId',
+        operatorId: 1,
+        type: 3,
+        loginId: 'loginid',
+        name: 'test-user',
+        mobilePhone: '0311112222',
+        auth: {
+            member: {
+                add: true,
+                update: true,
+                delete: true
+            }
+        },
+        lastLoginAt: '2020-01-01T00:00:00.000+0900',
+        attributes: {},
+        roles: [
+            {
+                _value: 1,
+                _ver: 1
+            }
+        ],
+        block: {
+            _value: 1000110,
+            _ver: 1
+        },
+        actor: {
+            _value: 1000204,
+            _ver: 1
+        }
+    };
+
+    /**
     * 正常(データ取引)
     */
     export const dataTrader = {
@@ -429,9 +464,11 @@ export namespace Session {
         name: 'test-user',
         mobilePhone: '0311112222',
         auth: {
-            add: true,
-            update: true,
-            delete: true
+            member: {
+                add: true,
+                update: true,
+                delete: true
+            }
         },
         lastLoginAt: '2020-01-01T00:00:00.000+0900',
         attributes: {},
@@ -1000,6 +1037,76 @@ export namespace Session {
         },
         actor: {
             _value: 1000104,
+            _ver: 1
+        }
+    };
+
+    /**
+    * 異常(アクターカタログの内容がnull)
+    */
+    export const errorEmptyActorCatalog = {
+        sessionId: 'sessionId',
+        operatorId: 1,
+        type: 3,
+        loginId: 'loginid',
+        name: 'test-user',
+        mobilePhone: '0311112222',
+        auth: {
+            member: {
+                add: true,
+                update: true,
+                delete: true
+            }
+        },
+        lastLoginAt: '2020-01-01T00:00:00.000+0900',
+        attributes: {},
+        roles: [
+            {
+                _value: 1,
+                _ver: 1
+            }
+        ],
+        block: {
+            _value: 1000110,
+            _ver: 1
+        },
+        actor: {
+            _value: 1000002,
+            _ver: 1
+        }
+    };
+
+    /**
+    * 異常(actor._valueがアクターカタログのコードではない)
+    */
+    export const errorNotActorCatalogCode = {
+        sessionId: 'sessionId',
+        operatorId: 1,
+        type: 3,
+        loginId: 'loginid',
+        name: 'test-user',
+        mobilePhone: '0311112222',
+        auth: {
+            member: {
+                add: true,
+                update: true,
+                delete: true
+            }
+        },
+        lastLoginAt: '2020-01-01T00:00:00.000+0900',
+        attributes: {},
+        roles: [
+            {
+                _value: 1,
+                _ver: 1
+            }
+        ],
+        block: {
+            _value: 1000110,
+            _ver: 1
+        },
+        actor: {
+            _value: 1000005,
             _ver: 1
         }
     };

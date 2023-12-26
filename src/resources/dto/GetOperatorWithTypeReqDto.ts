@@ -6,7 +6,8 @@ https://opensource.org/licenses/mit-license.php
 import {
     IsString,
     IsNumber,
-    IsOptional
+    IsOptional,
+    Max
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { transformToNumber } from '../../common/Transform';
@@ -17,7 +18,7 @@ import { transformToNumber } from '../../common/Transform';
 export default class {
     @IsNumber()
     @IsOptional()
-    @Transform(transformToNumber)
+    @Transform(({ value }) => { return transformToNumber(value) })
     type: number;
 
     @IsString()
@@ -27,4 +28,23 @@ export default class {
     @IsString()
     @IsOptional()
     pxrId: string;
+
+//削除
+//    @IsNumber()
+//    @IsOptional()
+//    @Max(Number.MAX_SAFE_INTEGER)
+//    @Transform(transformToNumber)
+//    wfCode: number;
+    
+    @IsNumber()
+    @IsOptional()
+    @Max(Number.MAX_SAFE_INTEGER)
+    @Transform(({ value }) => { return transformToNumber(value) })
+    appCode: number;
+
+    @IsNumber()
+    @IsOptional()
+    @Max(Number.MAX_SAFE_INTEGER)
+    @Transform(({ value }) => { return transformToNumber(value) })
+    regionCode: number;
 }

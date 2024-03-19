@@ -10,6 +10,8 @@ import Config from './Config';
 // import * as uuid from 'uuid';
 import request = require('request');
 const Message = Config.ReadConfig('./config/message.json');
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 // const applicationLogger: log4js.Logger = log4js.getLogger('application');
 // const performance = require('perf_hooks').performance;
 // const contextService = require('request-context');

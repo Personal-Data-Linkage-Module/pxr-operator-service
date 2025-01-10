@@ -77,7 +77,7 @@ export class Application {
             this.server.close(() => {
                 systemLogger.info('SIGTERM signal received.');
             });
-        });        
+        });
     }
 
     start () {

@@ -23,7 +23,7 @@ const expressApp = app.express.app;
 const common = new Common();
 
 // 有効期限
-var dt = new Date();
+const dt = new Date();
 dt.setHours(dt.getHours() + 168);
 const expire = moment(dt).tz(config['timezone']).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
 
@@ -365,7 +365,7 @@ describe('operator API', () => {
         test('データ不足　前提：運営メンバーが1人もいないこと', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -387,7 +387,7 @@ describe('operator API', () => {
         test('データ不足　前提：全権持ちの運営メンバーが1人もいないこと', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber00',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -413,7 +413,7 @@ describe('operator API', () => {
         test('データ不足　前提：権限指定がない', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber00',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -432,7 +432,7 @@ describe('operator API', () => {
         test('異常（運営メンバー（全権））　カタログには存在しない設定不可の権限', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber00',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -462,7 +462,7 @@ describe('operator API', () => {
         test('正常（運営メンバー（全権））　前提：全権持ちの運営メンバーが1人もいないこと', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber00',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -497,7 +497,7 @@ describe('operator API', () => {
         test('データ不足　前提：運営メンバーでログインしていないこと', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -531,7 +531,7 @@ describe('operator API', () => {
                 );
             `);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -554,7 +554,7 @@ describe('operator API', () => {
         test('ヘッダ情報不足', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -575,7 +575,7 @@ describe('operator API', () => {
         test('パラメータ不足　type0の時、attributes.initialPasswordExpireが無い', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -600,7 +600,7 @@ describe('operator API', () => {
         test('パラメータ不足　type0の時、pxrIdが無い', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -624,7 +624,7 @@ describe('operator API', () => {
         test('パラメータ不足　loginId', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
                 pxrId: 'test',
@@ -651,7 +651,7 @@ describe('operator API', () => {
         test('パラメータ不足　hpassword', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 pxrId: 'test',
@@ -675,7 +675,7 @@ describe('operator API', () => {
         test('パラメータ異常　type0なのにnameが存在する(name)', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -720,7 +720,7 @@ describe('operator API', () => {
                 );
             `);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber0001',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -747,7 +747,7 @@ describe('operator API', () => {
         test('パラメータ異常　type0以外の時、pxrIdがある', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber00',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -777,7 +777,7 @@ describe('operator API', () => {
         test('パラメータ不足　rolesに_valueが無い', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 1,
                 loginId: 'wf_staff01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -807,7 +807,7 @@ describe('operator API', () => {
         test('パラメータ不足　rolesに_verが無い', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 1,
                 loginId: 'wf_staff01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -865,7 +865,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -916,7 +916,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -952,7 +952,7 @@ describe('operator API', () => {
         test('正常（運営メンバー（権限null））　前提：操作権限のある運営メンバーでログインしていること', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber02',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -998,7 +998,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber03',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1034,7 +1034,7 @@ describe('operator API', () => {
         test('パラメーター異常　登録済みのloginId', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber00',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1061,7 +1061,7 @@ describe('operator API', () => {
         test('パラメーター異常　カタログが存在しない（アプリケーション）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 404);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1086,7 +1086,7 @@ describe('operator API', () => {
         test('パラメーター異常　カタログサーバーエラー（400）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 400);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1111,7 +1111,7 @@ describe('operator API', () => {
         test('パラメーター異常　カタログサーバーエラー（500）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 500);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1135,7 +1135,7 @@ describe('operator API', () => {
         });
         test('サーバー異常　カタログサービスに接続できない（アプリケーション）', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1160,7 +1160,7 @@ describe('operator API', () => {
         test('パラメーター異常　ロール定義のカタログ項目コードではない', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション_4',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1185,7 +1185,7 @@ describe('operator API', () => {
         test('正常（アプリケーション）　前提：操作権限のある運営メンバーでログインしていること', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1213,7 +1213,7 @@ describe('operator API', () => {
         test('正常（アプリケーション（IDサービス使用））　前提：操作権限のある運営メンバーでログインしていること。IDサービスに組織情報が存在しないこと', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200, null, true);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'application',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1241,7 +1241,7 @@ describe('operator API', () => {
         test('正常（アプリケーション（IDサービス使用））　前提：操作権限のある運営メンバーでログインしていること。IDサービスに組織情報が存在すること', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200, null, true);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'application2',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1269,7 +1269,7 @@ describe('operator API', () => {
         test('正常（個人（SMS認証あり））　前提：操作権限のある運営メンバーでログインしていること', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind02',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1298,7 +1298,7 @@ describe('operator API', () => {
         test('異常　アプリケーションのカタログ不備', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 2,
                 loginId: 'アプリケーション２',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1323,7 +1323,7 @@ describe('operator API', () => {
         test('異常　ヘッダーからログイン情報を取得（運営メンバー以外）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.pxrid.ind99',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1372,7 +1372,7 @@ describe('operator API', () => {
         test('異常　ヘッダーからログイン情報を取得（追加権限がない）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.pxrid.ind99',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1429,7 +1429,7 @@ describe('operator API', () => {
         test('異常　アクターで許可されていない権限', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200, 'catalog/ext/test-org/setting/actor/data-trader/actor_1000020');
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber04',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1488,7 +1488,7 @@ describe('operator API', () => {
         test('正常　ヘッダーからログイン情報を取得', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.pxrid.ind99',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1547,7 +1547,7 @@ describe('operator API', () => {
         test('異常　外部からの接続でヘッダーからログイン情報を取得', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.pxrid.ind99',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1623,7 +1623,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber02',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1664,7 +1664,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber04',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1691,7 +1691,7 @@ describe('operator API', () => {
         test('正常　ログイン不可個人の登録（APP）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind101',
                 userId: 'test.userid.ind101',
@@ -1750,7 +1750,7 @@ describe('operator API', () => {
         test('正常　ログイン不可個人の登録（REGION）', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind102',
                 userId: 'test.userid.ind102',
@@ -1809,7 +1809,7 @@ describe('operator API', () => {
         test('異常　ログイン不可個人でuserId+appCatalogCodeが重複', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind101',
                 userId: 'test.userid.ind101',
@@ -1862,7 +1862,7 @@ describe('operator API', () => {
         test('異常　ログイン不可個人でloginId+appCatalogCodeが重複', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind101',
                 userId: 'test.userid.ind100',
@@ -1915,7 +1915,7 @@ describe('operator API', () => {
         test('パラメータ異常　個人以外でloginProhibitedFlgが設定されている', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'mng_menber01',
                 hpassword: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
@@ -1978,7 +1978,7 @@ describe('operator API', () => {
         test('パラメータ異常　loginProhibitedFlgがBoolean以外', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind103',
                 userId: 'test.userid.ind103',
@@ -2040,7 +2040,7 @@ describe('operator API', () => {
         test('パラメータ異常　loginProhibitedFlgがtrueの時にhpasswordが設定されている', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind100',
                 userId: 'test.userid.ind100',
@@ -2097,7 +2097,7 @@ describe('operator API', () => {
         test('パラメータ不足　userId', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind100',
                 wfCatalogCode: 1000007,
@@ -2152,7 +2152,7 @@ describe('operator API', () => {
         test('パラメータ不足　wfCatalogCode(appCatalogCode)', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind100',
                 userId: 'test.userid.ind100',
@@ -2207,7 +2207,7 @@ describe('operator API', () => {
         test('パラメータ異常　ログイン不可個人以外でuserIdが設定されている', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind100',
                 userId: 'test.userid.ind100',
@@ -2267,7 +2267,7 @@ describe('operator API', () => {
         test('パラメータ異常　ログイン不可個人以外でappCatalogCodeが設定されている', async () => {
             _catalogServer = new _StubCatalogServer(3001, 200);
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'test.userid.ind100',
                 pxrId: 'test-test',

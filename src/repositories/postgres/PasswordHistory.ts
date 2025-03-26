@@ -14,19 +14,19 @@ export default class PasswordHistory extends BaseEntity {
 
     /** オペレーターID */
     @Column({ type: 'bigint', nullable: false, name: 'operator_id' })
-    operatorId: number;
+        operatorId: number;
 
     /** ハッシュパスワード */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'hpassword' })
-    hpassword: string;
+        hpassword: string;
 
     /** 無効フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /** 登録者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /** 登録日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', name: 'created_at' })
@@ -34,7 +34,7 @@ export default class PasswordHistory extends BaseEntity {
 
     /** 更新者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /** 更新日時 */
     @UpdateDateColumn({ type: 'timestamp without time zone', name: 'updated_at', onUpdate: 'now()' })

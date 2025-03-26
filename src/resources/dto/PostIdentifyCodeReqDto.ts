@@ -8,10 +8,10 @@ export default class PostIdentifyCodeReqDto {
     @IsString()
     @IsNotEmpty()
     @IsDefined()
-    identifyCode: string;
+        identifyCode: string;
 
     @IsString()
     @IsNotEmpty()
     @IsDefined()
-    expirationAt: string;
+        expirationAt: string;
 }

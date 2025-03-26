@@ -17,6 +17,12 @@ export default class UserInfoServiceDto {
     /** 利用者情報 */
     private userInfo: UserInformationDto = null;
 
+    /** appカタログコード */
+    private appCode: number = null;
+
+    /** regionカタログコード */
+    private regionCode: number = null;
+
     /** リクエスト情報 */
     private request: any = null;
 
@@ -42,6 +48,22 @@ export default class UserInfoServiceDto {
 
     public setUserInfo (userInfo: UserInformationDto) {
         this.userInfo = userInfo;
+    }
+
+    public getAppCode (): number {
+        return this.appCode;
+    }
+
+    public setAppCode (appCode: number) {
+        this.appCode = appCode;
+    }
+
+    public getRegionCode (): number {
+        return this.regionCode;
+    }
+
+    public setRegionCode (regionCode: number) {
+        this.regionCode = regionCode;
     }
 
     public getRequest<T> (): T {

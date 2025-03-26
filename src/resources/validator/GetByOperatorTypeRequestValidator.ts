@@ -35,6 +35,9 @@ export default class GetByOperatorTypeRequestValidator implements ExpressMiddlew
         if (dto.type && ![OperatorType.TYPE_IND, OperatorType.TYPE_APP, OperatorType.TYPE_MANAGE_MEMBER].includes(dto.type)) {
             throw new AppError(Message.OUT_OF_SCOPE, 400);
         }
+        if (dto.appCode && dto.regionCode) {
+            throw new AppError(Message.SET_WF_APP_REGION, 400);
+        }
 
         next();
     }

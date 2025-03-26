@@ -19,37 +19,37 @@ export default class SmsVerificationCode {
      * オペレーターID
      */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'operator_id' })
-    operatorId: number;
+        operatorId: number;
 
     /**
      * 検証コード
      */
     @Column({ type: 'varchar', length: 255, name: 'verification_code' })
-    verificationCode: string;
+        verificationCode: string;
 
     /**
      * 検証コード有効期限
      */
     @Column({ type: 'timestamp without time zone', nullable: false, name: 'verification_code_expiration' })
-    verificationCodeExpiration: Date;
+        verificationCodeExpiration: Date;
 
     /**
      * 検証結果 （1: 未検証, 2: 検証済）
      */
     @Column({ type: 'smallint', nullable: false, name: 'verification_result' })
-    verificationResult: number;
+        verificationResult: number;
 
     /**
      * 削除フラグ
      */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /**
      * 登録者
      */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /**
      * 登録日時
@@ -61,7 +61,7 @@ export default class SmsVerificationCode {
      * 更新者
      */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /**
      * 更新日時

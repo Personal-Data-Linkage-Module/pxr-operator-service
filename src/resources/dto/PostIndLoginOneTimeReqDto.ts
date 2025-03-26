@@ -10,14 +10,14 @@ export default class PostIndLoginOneTimeReqDto {
     @IsString()
     @IsNotEmpty()
     @Length(6, 6)
-    loginCode: string;
+        loginCode: string;
 
     @IsString()
     @IsNotEmpty()
-    loginId: string;
+        loginId: string;
 
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
-    type: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        type: number;
 }

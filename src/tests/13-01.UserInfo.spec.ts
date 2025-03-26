@@ -6,7 +6,10 @@ import { Application } from '../resources/config/Application';
 import { clear } from './11-00.Data';
 import { CatalogServer, CatalogServer2 } from './StubServer';
 import Common from './Common';
+import { Session } from './Session';
+import Config from '../common/Config';
 import supertest = require('supertest');
+const Message = Config.ReadConfig('./config/message.json');
 
 jest.mock('../common/Config', () => ({
     ...jest.requireActual('../common/Config') as any,
@@ -1176,9 +1179,10 @@ describe('User Info API', () => {
                     'content-type': 'application/json',
                     accept: 'application/json'
                 })
-                .set('Cookie', ['operator_type3_session=' + sessionId])
+                .set({ session: JSON.stringify(Session.pxrApp) })
                 .query({
-                    userId: 'miss'
+                    userId: 'miss',
+                    appCode: 5002
                 });
 
             expect(response.status).toBe(204);
@@ -2330,9 +2334,10 @@ describe('User Info API', () => {
                     'content-type': 'application/json',
                     accept: 'application/json'
                 })
-                .set('Cookie', ['operator_type3_session=' + sessionId])
+                .set({ session: JSON.stringify(Session.pxrApp) })
                 .send({
                     userId: '123456789',
+                    appCode: 5002,
                     userInfo: {
                         _code: {
                             _value: 1000373,
@@ -2429,9 +2434,10 @@ describe('User Info API', () => {
                     'content-type': 'application/json',
                     accept: 'application/json'
                 })
-                .set('Cookie', ['operator_type3_session=' + sessionId])
+                .set({ session: JSON.stringify(Session.pxrApp) })
                 .query({
-                    userId: '123456789'
+                    userId: '123456789',
+                    appCode: 5002
                 });
 
             expect(JSON.stringify(response.body)).toBe(JSON.stringify({
@@ -2530,9 +2536,10 @@ describe('User Info API', () => {
                     'content-type': 'application/json',
                     accept: 'application/json'
                 })
-                .set('Cookie', ['operator_type0_session=' + sessionId])
+                .set({ session: JSON.stringify(Session.pxrApp) })
                 .query({
-                    userId: '123456789'
+                    userId: '123456789',
+                    appCode: 5002
                 });
 
             expect(response.status).toBe(200);
@@ -3386,6 +3393,758 @@ describe('User Info API', () => {
                     pxrId: null
                 }
             ]);
+        });
+    });
+
+    /**
+     * 利用者情報API GET | POST | DELETE （userId重複パターン）
+     */
+    describe('利用者情報API GET | POST | DELETE （userId重複パターン）', () => {
+        const appUserInfo = {
+            _code: {
+                _value: 1000373,
+                _ver: 1
+            },
+            'item-group': [
+                {
+                    title: '氏名',
+                    item: [
+                        {
+                            title: '姓',
+                            type: {
+                                _value: 30019,
+                                _ver: 1
+                            },
+                            content: 'アプリケーション'
+                        },
+                        {
+                            title: '名',
+                            type: {
+                                _value: 30020,
+                                _ver: 1
+                            },
+                            content: 'アプリ'
+                        }
+                    ]
+                },
+                {
+                    title: '性別',
+                    item: [
+                        {
+                            title: '性別',
+                            type: {
+                                _value: 30021,
+                                _ver: 1
+                            },
+                            content: '男'
+                        }
+                    ]
+                },
+                {
+                    title: '生年',
+                    item: [
+                        {
+                            title: '生年',
+                            type: {
+                                _value: 1000372,
+                                _ver: 1
+                            },
+                            content: 2001
+                        }
+                    ]
+                },
+                {
+                    title: '住所（行政区）',
+                    item: [
+                        {
+                            title: '住所（行政区）',
+                            type: {
+                                _value: 1000371,
+                                _ver: 1
+                            },
+                            content: '東京都台東区'
+                        }
+                    ]
+                },
+                {
+                    title: '連絡先電話番号',
+                    item: [
+                        {
+                            title: '連絡先電話番号',
+                            type: {
+                                _value: 30036,
+                                _ver: 1
+                            },
+                            content: '080-1234-5679',
+                            'changable-flag': true
+                        }
+                    ]
+                }
+            ]
+        };
+        const appUserInfo2 = {
+            _code: {
+                _value: 1000373,
+                _ver: 1
+            },
+            'item-group': [
+                {
+                    title: '氏名',
+                    item: [
+                        {
+                            title: '姓',
+                            type: {
+                                _value: 30019,
+                                _ver: 1
+                            },
+                            content: 'アプリケーション2'
+                        },
+                        {
+                            title: '名',
+                            type: {
+                                _value: 30020,
+                                _ver: 1
+                            },
+                            content: 'アプリ2'
+                        }
+                    ]
+                },
+                {
+                    title: '性別',
+                    item: [
+                        {
+                            title: '性別',
+                            type: {
+                                _value: 30021,
+                                _ver: 1
+                            },
+                            content: '男'
+                        }
+                    ]
+                },
+                {
+                    title: '生年',
+                    item: [
+                        {
+                            title: '生年',
+                            type: {
+                                _value: 1000372,
+                                _ver: 1
+                            },
+                            content: 2021
+                        }
+                    ]
+                },
+                {
+                    title: '住所（行政区）',
+                    item: [
+                        {
+                            title: '住所（行政区）',
+                            type: {
+                                _value: 1000371,
+                                _ver: 1
+                            },
+                            content: '東京都台東区'
+                        }
+                    ]
+                },
+                {
+                    title: '連絡先電話番号',
+                    item: [
+                        {
+                            title: '連絡先電話番号',
+                            type: {
+                                _value: 30036,
+                                _ver: 1
+                            },
+                            content: '081-1234-5679',
+                            'changable-flag': true
+                        }
+                    ]
+                }
+            ]
+        };
+        const regionUserInfo = {
+            _code: {
+                _value: 1000373,
+                _ver: 1
+            },
+            'item-group': [
+                {
+                    title: '氏名',
+                    item: [
+                        {
+                            title: '姓',
+                            type: {
+                                _value: 30019,
+                                _ver: 1
+                            },
+                            content: 'リージョン'
+                        },
+                        {
+                            title: '名',
+                            type: {
+                                _value: 30020,
+                                _ver: 1
+                            },
+                            content: '領域'
+                        }
+                    ]
+                },
+                {
+                    title: '性別',
+                    item: [
+                        {
+                            title: '性別',
+                            type: {
+                                _value: 30021,
+                                _ver: 1
+                            },
+                            content: '女'
+                        }
+                    ]
+                },
+                {
+                    title: '生年',
+                    item: [
+                        {
+                            title: '生年',
+                            type: {
+                                _value: 1000372,
+                                _ver: 1
+                            },
+                            content: 2002
+                        }
+                    ]
+                },
+                {
+                    title: '住所（行政区）',
+                    item: [
+                        {
+                            title: '住所（行政区）',
+                            type: {
+                                _value: 1000371,
+                                _ver: 1
+                            },
+                            content: '東京都新宿区'
+                        }
+                    ]
+                },
+                {
+                    title: '連絡先電話番号',
+                    item: [
+                        {
+                            title: '連絡先電話番号',
+                            type: {
+                                _value: 30036,
+                                _ver: 1
+                            },
+                            content: '080-1234-5676',
+                            'changable-flag': true
+                        }
+                    ]
+                }
+            ]
+        };
+        test('正常：利用者情報の登録(利用者ID指定)、appコード指定、app運営が実行', async () => {
+            // 事前データ準備
+            await common.executeSqlFile('initialData.sql');
+            await common.executeSqlString(`
+                INSERT INTO pxr_operator.operator
+                (
+                    type, login_id, hpassword, pxr_id, name, auth, last_login_at, login_prohibited_flg,
+                    wf_catalog_code, app_catalog_code, region_catalog_code,
+                    user_id, attributes, is_disabled, created_by, created_at, updated_by, updated_at, unique_check_login_id
+                )
+                VALUES
+                (
+                    0, 'wfUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'wfログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    1000010, null, null,
+                    'wfUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'wfUser0101000010true'
+                ),
+                (
+                    0, 'wfUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'wfログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    1000011, null, null,
+                    'wfUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'wfUser0101000011true'
+                ),
+                (
+                    0, 'appUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'appログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, 1000021, null,
+                    'appUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'appUser0101000021true'
+                ),
+                (
+                    0, 'appUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'appログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, 1000022, null,
+                    'appUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'appUser0101000022true'
+                ),
+                (
+                    0, 'regionUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'regionログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, null, 1000030,
+                    'regionUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'regionUser0101000030true'
+                ),
+                (
+                    0, 'regionUser01', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', null, 'regionログイン不可個人01', null, '2020-01-15 23:59:59.000', true, 
+                    null, null, 1000031,
+                    'regionUser01', '{"test": "test"}', false, 'test_user', NOW(), 'test_user', NOW(), 'regionUser0101000031true'
+                );
+            `);
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .send({
+                    userId: 'appUser01',
+                    appCode: 1000021,
+                    userInfo: appUserInfo
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({ userId: 'appUser01' }));
+            // リクエストの条件で標的オペレータレコードを取得
+            const targetOperatorRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.operator WHERE user_id = 'appUser01' and app_catalog_code = '1000021';
+            `);
+            expect(targetOperatorRecord.length).toBe(1);
+            expect(targetOperatorRecord[0].id).toBe('3');
+            expect(targetOperatorRecord[0].user_id).toBe('appUser01');
+            expect(targetOperatorRecord[0].app_catalog_code).toBe('1000021');
+            expect(targetOperatorRecord[0].region_catalog_code).toBe(null);
+            expect(targetOperatorRecord[0].user_information).toBe(JSON.stringify(appUserInfo));
+            // 標的オペレータレコードIDに紐づけてリクエストの利用者情報が保存されているかチェック
+            const targetUserInfoRecord = await common.executeSqlString(`
+            SELECT id, operator_id, catalog_code, catalog_version, value FROM pxr_operator.user_information WHERE operator_id = 3;
+            `);
+            expect(targetUserInfoRecord.length).toBe(6);
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '1',
+                operator_id: '3',
+                catalog_code: '30019',
+                catalog_version: '1',
+                value: 'アプリケーション'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '2',
+                operator_id: '3',
+                catalog_code: '30020',
+                catalog_version: '1',
+                value: 'アプリ'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '3',
+                operator_id: '3',
+                catalog_code: '30021',
+                catalog_version: '1',
+                value: '男'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '4',
+                operator_id: '3',
+                catalog_code: '1000372',
+                catalog_version: '1',
+                value: '2001'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '5',
+                operator_id: '3',
+                catalog_code: '1000371',
+                catalog_version: '1',
+                value: '東京都台東区'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '6',
+                operator_id: '3',
+                catalog_code: '30036',
+                catalog_version: '1',
+                value: '080-1234-5679'
+            });
+        });
+        test('正常：利用者情報の登録(利用者ID指定)、regionコード指定、region運営が実行', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrRegion) })
+                .send({
+                    userId: 'regionUser01',
+                    regionCode: 1000030,
+                    userInfo: regionUserInfo
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({ userId: 'regionUser01' }));
+            // リクエストの条件で標的オペレータレコードを取得
+            const targetOperatorRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.operator WHERE user_id = 'regionUser01' and region_catalog_code = '1000030';
+            `);
+            expect(targetOperatorRecord.length).toBe(1);
+            expect(targetOperatorRecord[0].id).toBe('5');
+            expect(targetOperatorRecord[0].user_id).toBe('regionUser01');
+            expect(targetOperatorRecord[0].app_catalog_code).toBe(null);
+            expect(targetOperatorRecord[0].region_catalog_code).toBe('1000030');
+            expect(targetOperatorRecord[0].user_information).toBe(JSON.stringify(regionUserInfo));
+            // 標的オペレータレコードIDに紐づけてリクエストの利用者情報が保存されているかチェック
+            const targetUserInfoRecord = await common.executeSqlString(`
+            SELECT id, operator_id, catalog_code, catalog_version, value FROM pxr_operator.user_information WHERE operator_id = 5;
+            `);
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '7',
+                operator_id: '5',
+                catalog_code: '30019',
+                catalog_version: '1',
+                value: 'リージョン'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '8',
+                operator_id: '5',
+                catalog_code: '30020',
+                catalog_version: '1',
+                value: '領域'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '9',
+                operator_id: '5',
+                catalog_code: '30021',
+                catalog_version: '1',
+                value: '女'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '10',
+                operator_id: '5',
+                catalog_code: '1000372',
+                catalog_version: '1',
+                value: '2002'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '11',
+                operator_id: '5',
+                catalog_code: '1000371',
+                catalog_version: '1',
+                value: '東京都新宿区'
+            });
+            expect(targetUserInfoRecord).toContainEqual({
+                id: '12',
+                operator_id: '5',
+                catalog_code: '30036',
+                catalog_version: '1',
+                value: '080-1234-5676'
+            });
+        });
+        test('異常：利用者情報の登録(利用者ID指定)、regionコード指定、app運営が実行', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .send({
+                    userId: 'appUser01',
+                    regionCode: 1000030,
+                    userInfo: appUserInfo
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe(Message.MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE);
+        });
+        test('異常：利用者情報の登録(利用者ID指定)、regionコード指定、セッションにアクター情報がない', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.errorNotActor) })
+                .send({
+                    userId: 'regionUser01',
+                    regionCode: 1000031,
+                    userInfo: regionUserInfo
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(401);
+            expect(response.body.message).toBe(Message.REQUIRE_SESSION_ACTOR);
+        });
+        test('異常：利用者情報の登録(利用者ID指定)、regionコード指定、アクターカタログのNS取得失敗', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.errorEmptyActorCatalog) })
+                .send({
+                    userId: 'regionUser01',
+                    regionCode: 1000031,
+                    userInfo: regionUserInfo
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(401);
+            expect(response.body.message).toBe(Message.NOT_FOUND_ACTOR_CATALOG);
+        });
+        test('異常：利用者情報の登録(利用者ID指定)、regionコード指定、オペレータの所属Block判定が想定外の値', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.errorNotActorCatalogCode) })
+                .send({
+                    userId: 'regionUser01',
+                    regionCode: 1000031,
+                    userInfo: regionUserInfo
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(401);
+            expect(response.body.message).toBe(Message.INVALID_OPERATOR_BLOCK_TYPE);
+        });
+        test('正常：利用者情報の取得(利用者ID指定)、appコード指定、app運営が実施', async () => {
+            // 事前データ準備（重複userIdの別appに利用者情報設定）
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response0 = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .send({
+                    userId: 'appUser01',
+                    appCode: 1000022,
+                    userInfo: appUserInfo2
+                });
+            expect(response0.status).toBe(200);
+
+            const response = await supertest(expressApp)
+                .get('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .query({
+                    userId: 'appUser01',
+                    appCode: 1000022
+                });
+
+            expect(response.status).toBe(200);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({
+                userId: 'appUser01',
+                userInfo: appUserInfo2
+            }));
+        });
+        test('正常：利用者情報の取得(利用者ID指定)、regionコード指定、region運営が実施', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .get('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrRegion) })
+                .query({
+                    userId: 'regionUser01',
+                    regionCode: 1000030
+                });
+
+            expect(response.status).toBe(200);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({
+                userId: 'regionUser01',
+                userInfo: regionUserInfo
+            }));
+        });
+        test('異常：利用者情報の取得(利用者ID指定)、regionコード指定、app運営が実施', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .get('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .query({
+                    userId: 'appUser01',
+                    regionCode: 1000030
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe(Message.MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE);
+        });
+        test('異常：利用者情報の削除(利用者ID指定)、regionコード指定、app運営が実施', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .delete('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .query({
+                    userId: 'appUser01',
+                    regionCode: 1000030
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe(Message.MISMATCH_OPERATOR_BLOCK_TYPE_AND_SERVICE_CODE);
+        });
+        test('正常：利用者情報の削除(利用者ID指定)、appコード指定、app運営が実施', async () => {
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response = await supertest(expressApp)
+                .delete('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrApp) })
+                .query({
+                    userId: 'appUser01',
+                    appCode: 1000021
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({
+                userId: 'appUser01'
+            }));
+            // リクエストの条件で標的オペレータレコードを取得し、user_informationがnullに更新されていることを確認
+            const targetOperatorRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.operator WHERE user_id = 'appUser01' and app_catalog_code = '1000021';
+            `);
+            expect(targetOperatorRecord.length).toBe(1);
+            expect(targetOperatorRecord[0].id).toBe('3');
+            expect(targetOperatorRecord[0].user_id).toBe('appUser01');
+            expect(targetOperatorRecord[0].app_catalog_code).toBe('1000021');
+            expect(targetOperatorRecord[0].region_catalog_code).toBe(null);
+            expect(targetOperatorRecord[0].user_information).toBe(null);
+            // 標的オペレータレコードIDに紐づくリクエストの利用者情報が削除されているかチェック
+            const targetUserInfoRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.user_information WHERE operator_id = 3;
+            `);
+            expect(targetUserInfoRecord.length).toBe(6);
+            for (const targetUserInfo of targetUserInfoRecord) {
+                expect(targetUserInfo.is_disabled).toBe(true);
+            }
+
+            // userid重複、別appのオペレータレコードを取得し、user_informationがnullに更新されていないことを確認
+            const notTargetOperatorRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.operator WHERE user_id = 'appUser01' and app_catalog_code = '1000022';
+            `);
+            expect(notTargetOperatorRecord.length).toBe(1);
+            expect(notTargetOperatorRecord[0].id).toBe('4');
+            expect(notTargetOperatorRecord[0].user_id).toBe('appUser01');
+            expect(notTargetOperatorRecord[0].app_catalog_code).toBe('1000022');
+            expect(notTargetOperatorRecord[0].region_catalog_code).toBe(null);
+            expect(notTargetOperatorRecord[0].user_information).toBe(JSON.stringify(appUserInfo2));
+            // userid重複、別appのオペレータレコードIDに紐づくリクエストの利用者情報が削除されていないことをチェック
+            const notTargetUserInfoRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.user_information WHERE operator_id = 4;
+            `);
+            expect(notTargetUserInfoRecord.length).toBe(6);
+            for (const targetUserInfo of notTargetUserInfoRecord) {
+                expect(targetUserInfo.is_disabled).toBe(false);
+            }
+        });
+        test('正常：利用者情報の削除(利用者ID指定)、regionコード指定、region運営が実施', async () => {
+            // 事前データ準備（重複userIdの別regionに利用者情報設定）
+            catalogServer = new CatalogServer();
+            await catalogServer.start();
+            const response0 = await supertest(expressApp)
+                .post('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrRegion) })
+                .send({
+                    userId: 'regionUser01',
+                    regionCode: 1000031,
+                    userInfo: regionUserInfo
+                });
+            expect(response0.status).toBe(200);
+
+            const response = await supertest(expressApp)
+                .delete('/operator/user/info')
+                .set({
+                    'content-type': 'application/json',
+                    accept: 'application/json'
+                })
+                .set({ session: JSON.stringify(Session.pxrRegion) })
+                .query({
+                    userId: 'regionUser01',
+                    regionCode: 1000030
+                });
+
+            // レスポンスチェック
+            expect(response.status).toBe(200);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify({
+                userId: 'regionUser01'
+            }));
+            // リクエストの条件で標的オペレータレコードを取得し、user_informationがnullに更新されていることを確認
+            const targetOperatorRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.operator WHERE user_id = 'regionUser01' and region_catalog_code = '1000030';
+            `);
+            expect(targetOperatorRecord.length).toBe(1);
+            expect(targetOperatorRecord[0].id).toBe('5');
+            expect(targetOperatorRecord[0].user_id).toBe('regionUser01');
+            expect(targetOperatorRecord[0].app_catalog_code).toBe(null);
+            expect(targetOperatorRecord[0].region_catalog_code).toBe('1000030');
+            expect(targetOperatorRecord[0].user_information).toBe(null);
+            // 標的オペレータレコードIDに紐づくリクエストの利用者情報が削除されているかチェック
+            const targetUserInfoRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.user_information WHERE operator_id = 5;
+            `);
+            expect(targetUserInfoRecord.length).toBe(6);
+            for (const targetUserInfo of targetUserInfoRecord) {
+                expect(targetUserInfo.is_disabled).toBe(true);
+            }
+
+            // userid重複、別appのオペレータレコードを取得し、user_informationがnullに更新されていないことを確認
+            const notTargetOperatorRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.operator WHERE user_id = 'regionUser01' and region_catalog_code = '1000031';
+            `);
+            expect(notTargetOperatorRecord.length).toBe(1);
+            expect(notTargetOperatorRecord[0].id).toBe('6');
+            expect(notTargetOperatorRecord[0].user_id).toBe('regionUser01');
+            expect(notTargetOperatorRecord[0].app_catalog_code).toBe(null);
+            expect(notTargetOperatorRecord[0].region_catalog_code).toBe('1000031');
+            expect(notTargetOperatorRecord[0].user_information).toBe(JSON.stringify(regionUserInfo));
+            // 標的オペレータレコード以外に紐づくリクエストの利用者情報が削除されていないことをチェック
+            const notTargetUserInfoRecord = await common.executeSqlString(`
+            SELECT * FROM pxr_operator.user_information WHERE operator_id = 6;
+            `);
+            expect(notTargetUserInfoRecord.length).toBe(6);
+            for (const notTargetUserInfo of notTargetUserInfoRecord) {
+                expect(notTargetUserInfo.is_disabled).toBe(false);
+            }
         });
     });
 });

@@ -393,14 +393,16 @@ export default class LoginService {
         const expire = parseInt(configure['session_expire']) * 60 * 60 * 1000;
         const resVal = serviceDto.getResponse();
         resVal.cookie(cookieName, sessionId,
-            process.env.NODE_ENV === 'production' ? {
-                expires: new Date(Date.now() + expire),
-                httpOnly: true,
-                secure: true
-            } : {
-                expires: new Date(Date.now() + expire),
-                httpOnly: true
-            }
+            process.env.NODE_ENV === 'production'
+                ? {
+                    expires: new Date(Date.now() + expire),
+                    httpOnly: true,
+                    secure: true
+                }
+                : {
+                    expires: new Date(Date.now() + expire),
+                    httpOnly: true
+                }
         );
         this.deleteOtherTypeCookies(resVal, authInfo.getType());
 

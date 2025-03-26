@@ -85,7 +85,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '437a5cbc10da802a887f5e057c88fdc64a927332871ad2a987dfcb7d224e7e11'
             };
 
@@ -125,7 +125,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '123a5cbc10da802a887f5e057c88fdc64a927332871ad2a987dfcb7d224e7e11'
             };
 
@@ -140,7 +140,7 @@ describe('operator API', () => {
         });
         test('パラメーター異常　空文字（sessionId）', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: ''
             };
 
@@ -160,7 +160,7 @@ describe('operator API', () => {
         });
         test('パラメーター異常　登録されていない（sessionId）', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '11111'
             };
 
@@ -199,7 +199,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '437a5cbc10da802a887f5e057c88fdc64a927332871ad2a987dfcb7d224e7e12'
             };
 
@@ -239,7 +239,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: 'c17aeeafd492c5da95ed52ced225b2deae274aa09a19634b8d2171e6065bb9db'
             };
 
@@ -268,7 +268,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '1512299e08c3084aeb7dfbb3d76724e4ecaf546e87dc8c3cca79de28d3cefc2b'
             };
 
@@ -298,7 +298,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '12e58ec076ac2ca5c59509e9420e759ef022b9af08c7d06710b8d74a4ed43333'
             };
 
@@ -338,7 +338,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '12345cbc10da802a887f5e057c88fdc64a927332871ad2a987dfcb7d224e7e11'
             };
 
@@ -379,7 +379,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 sessionId: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'
             };
 

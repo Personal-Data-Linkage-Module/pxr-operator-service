@@ -116,7 +116,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind_one_time',
                 loginCode: '999999'
@@ -135,7 +135,7 @@ describe('operator API', () => {
         });
         test('正常　個人以外', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'ind_one_time',
                 loginCode: '999999'
@@ -176,7 +176,7 @@ describe('operator API', () => {
             `);
 
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 3,
                 loginId: 'one_time',
                 loginCode: '888888'
@@ -195,7 +195,7 @@ describe('operator API', () => {
         });
         test('正常　運営メンバー以外', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind_one_time',
                 loginCode: '999999'
@@ -212,7 +212,7 @@ describe('operator API', () => {
         });
         test('以上　リクエストが配列', async () => {
             // 送信データを生成
-            var json = [{
+            const json = [{
                 type: 0,
                 loginId: 'ind_one_time',
                 loginCode: '999999'
@@ -229,7 +229,7 @@ describe('operator API', () => {
         });
         test('パラメーター不足　type', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 loginId: 'ind02',
                 loginCode: '123456'
             };
@@ -250,7 +250,7 @@ describe('operator API', () => {
         });
         test('パラメーター不足　loginId', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginCode: '123456'
             };
@@ -272,7 +272,7 @@ describe('operator API', () => {
         });
         test('パラメーター不足　loginCode', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind02'
             };
@@ -295,7 +295,7 @@ describe('operator API', () => {
         });
         test('パラメーター異常　未登録（loginCode）', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind02',
                 loginCode: '000000'
@@ -312,7 +312,7 @@ describe('operator API', () => {
         });
         test('パラメーター異常　リクエストが配列', async () => {
             // 送信データを生成
-            var json = [{
+            const json = [{
                 type: 0,
                 loginId: 'ind02',
                 loginCode: '000000'
@@ -329,7 +329,7 @@ describe('operator API', () => {
         });
         test('パラメーター異常　桁数（loginCode）', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind02',
                 loginCode: '1234567'
@@ -351,7 +351,7 @@ describe('operator API', () => {
         });
         test('パラメーター異常　文字列（loginCode）', async () => {
             // 送信データを生成
-            var json = {
+            const json = {
                 type: 0,
                 loginId: 'ind02',
                 loginCode: 'a00001'

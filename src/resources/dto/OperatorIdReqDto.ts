@@ -9,6 +9,6 @@ import { transformToNumber } from '../../common/Transform';
 export default class {
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
-    operatorId: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        operatorId: number;
 }

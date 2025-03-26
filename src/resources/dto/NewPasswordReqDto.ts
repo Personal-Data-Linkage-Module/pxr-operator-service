@@ -7,5 +7,5 @@ import { IsNotEmpty, IsHash } from 'class-validator';
 export default class NewPasswordReqDto {
     @IsNotEmpty()
     @IsHash('sha256')
-    newHpassword: string;
+        newHpassword: string;
 }

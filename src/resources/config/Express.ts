@@ -15,7 +15,7 @@ https://opensource.org/licenses/mit-license.php
 import 'reflect-metadata';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as helmet from 'helmet';
+import helmet from 'helmet';
 import { useExpressServer, useContainer } from 'routing-controllers';
 import { Container } from 'typedi';
 import setupLogging from './Logging';

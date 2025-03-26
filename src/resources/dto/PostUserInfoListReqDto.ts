@@ -32,5 +32,5 @@ export default class PostUserInfoListReqDto {
     @IsString({ each: true })
     @IsArray()
     @IsDefined()
-    pxrId: string[];
+        pxrId: string[];
 }

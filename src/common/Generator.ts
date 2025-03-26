@@ -2,7 +2,7 @@
 Released under the MIT license.
 https://opensource.org/licenses/mit-license.php
 */
-import * as uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
 /**
@@ -14,7 +14,7 @@ export default class Generator {
      */
     public sessionId (): string {
         // 乱数を生成
-        const uid = uuid();
+        const uid = uuidv4();
 
         // hash化
         const sha256 = crypto.createHash('sha256');

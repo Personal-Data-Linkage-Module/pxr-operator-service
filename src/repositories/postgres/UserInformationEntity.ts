@@ -12,27 +12,27 @@ export default class UserInformationEntity {
 
     /** オペレータID */
     @Column({ type: 'bigint', nullable: false, name: 'operator_id' })
-    operatorId: number = 0;
+        operatorId: number = 0;
 
     /** カタログコード */
     @Column({ type: 'bigint', nullable: false, name: 'catalog_code' })
-    catalogCode: number = 0;
+        catalogCode: number = 0;
 
     /** カタログバージョン */
     @Column({ type: 'bigint', nullable: false, name: 'catalog_version' })
-    catalogVersion: number = 0;
+        catalogVersion: number = 0;
 
     /** 設定値 */
     @Column({ type: 'text', nullable: false })
-    value: string = '';
+        value: string = '';
 
     /** 無効フラグ */
     @Column({ type: 'boolean', nullable: false, default: false, name: 'is_disabled' })
-    isDisabled: boolean = false;
+        isDisabled: boolean = false;
 
     /** 登録者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'created_by' })
-    createdBy: string = '';
+        createdBy: string = '';
 
     /** 登録日時 */
     @CreateDateColumn({ type: 'timestamp without time zone', nullable: false, default: 'NOW()', name: 'created_at' })
@@ -40,7 +40,7 @@ export default class UserInformationEntity {
 
     /** 更新者 */
     @Column({ type: 'varchar', length: 255, nullable: false, name: 'updated_by' })
-    updatedBy: string = '';
+        updatedBy: string = '';
 
     /** 更新日時 */
     @UpdateDateColumn({ type: 'timestamp without time zone', nullable: false, default: 'NOW()', name: 'updated_at' })

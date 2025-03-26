@@ -35,22 +35,22 @@ declare global {
  */
 
 export function csurf (options: any) {
-    var opts = options || {};
+    const opts = options || {};
 
     // get cookie options
-    var cookie = getCookieOptions(opts.cookie);
+    const cookie = getCookieOptions(opts.cookie);
 
     // get session options
-    var sessionKey = opts.sessionKey || 'session';
+    const sessionKey = opts.sessionKey || 'session';
 
     // get value getter
-    var value = opts.value || defaultValue;
+    const value = opts.value || defaultValue;
 
     // token repo
-    var tokens = new Tokens(opts);
+    const tokens = new Tokens(opts);
 
     // ignored methods
-    var ignoreMethods = opts.ignoreMethods === undefined
+    const ignoreMethods = opts.ignoreMethods === undefined
         ? ['GET', 'HEAD', 'OPTIONS']
         : opts.ignoreMethods;
 
@@ -59,9 +59,9 @@ export function csurf (options: any) {
     }
 
     // generate lookup
-    var ignoreMethod = getIgnoredMethods(ignoreMethods);
+    const ignoreMethod = getIgnoredMethods(ignoreMethods);
 
-    var ignoreRoutes = opts.ignoreRoutes === undefined ? [] : opts.ignoreRoutes;
+    const ignoreRoutes = opts.ignoreRoutes === undefined ? [] : opts.ignoreRoutes;
 
     if (!Array.isArray(ignoreRoutes)) {
         throw new TypeError('option ignoreRoutes must be an array');
@@ -75,12 +75,12 @@ export function csurf (options: any) {
         }
 
         // get the secret from the request
-        var secret = getSecret(req, sessionKey, cookie);
-        var token;
+        let secret = getSecret(req, sessionKey, cookie);
+        let token;
 
         // lazy-load token getter
         req.csrfToken = function csrfToken () {
-            var sec = !cookie
+            let sec = !cookie
                 ? getSecret(req, sessionKey, cookie)
                 : secret;
 
@@ -110,7 +110,7 @@ export function csurf (options: any) {
             setSecret(req, res, sessionKey, secret, cookie);
         }
 
-        var allowTheRoute = allowRoute(req.url, ignoreRoutes);
+        const allowTheRoute = allowRoute(req.url, ignoreRoutes);
 
         // verify the incoming token
         if (!ignoreMethod[req.method] && allowTheRoute && !tokens.verify(secret, value(req))) {
@@ -154,15 +154,15 @@ export function getCookieOptions (options) {
         return undefined;
     }
 
-    var opts = Object.create(null);
+    const opts = Object.create(null);
 
     // defaults
     opts.key = '_csrf';
     opts.path = '/';
 
     if (options && typeof options === 'object') {
-        for (var prop in options) {
-            var val = options[prop];
+        for (const prop in options) {
+            const val = options[prop];
 
             if (val !== undefined) {
                 opts[prop] = val;
@@ -182,10 +182,10 @@ export function getCookieOptions (options) {
  */
 
 export function getIgnoredMethods (methods) {
-    var obj = Object.create(null);
+    const obj = Object.create(null);
 
-    for (var i = 0; i < methods.length; i++) {
-        var method = methods[i].toUpperCase();
+    for (let i = 0; i < methods.length; i++) {
+        const method = methods[i].toUpperCase();
         obj[method] = true;
     }
 
@@ -203,8 +203,8 @@ export function getIgnoredMethods (methods) {
 
 export function getSecret (req, sessionKey, cookie) {
     // get the bag & key
-    var bag = getSecretBag(req, sessionKey, cookie);
-    var key = cookie ? cookie.key : 'csrfSecret';
+    const bag = getSecretBag(req, sessionKey, cookie);
+    const key = cookie ? cookie.key : 'csrfSecret';
 
     if (!bag) {
         throw new Error('misconfigured csrf');
@@ -226,7 +226,7 @@ export function getSecret (req, sessionKey, cookie) {
 export function getSecretBag (req, sessionKey, cookie) {
     if (cookie) {
         // get secret from cookie
-        var cookieKey = cookie.signed
+        const cookieKey = cookie.signed
             ? 'signedCookies'
             : 'cookies';
         return req[cookieKey];
@@ -247,10 +247,11 @@ export function getSecretBag (req, sessionKey, cookie) {
  */
 
 export function setCookie (res, name, val, options) {
-    var data = Cookie.serialize(name, val, options);
+    const data = Cookie.serialize(name, val, options);
 
-    var prev = res.getHeader('set-cookie') || [];
-    var header = Array.isArray(prev) ? prev.concat(data)
+    const prev = res.getHeader('set-cookie') || [];
+    const header = Array.isArray(prev)
+        ? prev.concat(data)
         : [prev, data];
 
     res.setHeader('set-cookie', header);
@@ -265,10 +266,10 @@ export function setCookie (res, name, val, options) {
  */
 
 export function getIgnoredRoutes (routes) {
-    var obj = Object.create(null);
+    const obj = Object.create(null);
 
-    for (var i = 0; i < routes.length; i++) {
-        var route = routes[i];
+    for (let i = 0; i < routes.length; i++) {
+        const route = routes[i];
         obj[route] = true;
     }
 
@@ -289,7 +290,7 @@ export function getIgnoredRoutes (routes) {
 export function setSecret (req, res, sessionKey, val, cookie) {
     if (cookie) {
         // set secret on cookie
-        var value = val;
+        let value = val;
 
         if (cookie.signed) {
             value = 's:' + sign.sign(val, req.secret);
@@ -320,7 +321,8 @@ export function verifyConfiguration (req, sessionKey, cookie) {
 }
 
 export function allowRoute (route, ignoreRoute) {
-    var allow : boolean = true;
+    let allow : boolean = true;
+    /* eslint-disable array-callback-return */
     ignoreRoute.map(function (r) {
         if (r instanceof RegExp) {
             if (route.match(r) != null) {
@@ -335,5 +337,6 @@ export function allowRoute (route, ignoreRoute) {
             }
         }
     });
+    /* eslint-enable array-callback-return */
     return allow;
 }

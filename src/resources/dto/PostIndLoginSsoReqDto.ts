@@ -8,5 +8,5 @@ export default class PostIndLoginSsoReqDto {
     @IsString()
     @IsNotEmpty()
     @IsDefined()
-    authorizationCode: string;
+        authorizationCode: string;
 }

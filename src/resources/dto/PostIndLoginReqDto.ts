@@ -9,14 +9,14 @@ import { transformToNumber } from '../../common/Transform';
 export default class PostIndLoginReqDto {
     @IsHash('sha256')
     @IsNotEmpty()
-    hpassword: string;
+        hpassword: string;
 
     @IsString()
     @IsNotEmpty()
-    loginId: string;
+        loginId: string;
 
     @IsNumber()
     @IsDefined()
-    @Transform(transformToNumber)
-    type: number;
+    @Transform(({ value }) => { return transformToNumber(value); })
+        type: number;
 }

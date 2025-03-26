@@ -262,6 +262,611 @@ export class CatalogServer extends BaseStubServer {
                         description: 'アプリケーションの定義です。'
                     }
                 }).end();
+            } else if (_code === 1000001) {
+                res.status(200).json({
+                    catalogItem: {
+                        ns: 'catalog/ext/osaka-u-society5.0/actor/pxr-root',
+                        name: 'データビリティコンソーシアム（流通制御）',
+                        _code: {
+                            _value: 1000001,
+                            _ver: 1
+                        },
+                        inherit: {
+                            _value: 50,
+                            _ver: 1
+                        },
+                        description: 'データビリティコンソーシアム（流通制御）の定義です。'
+                    },
+                    template: {
+                        _code: {
+                            _value: 1000001,
+                            _ver: 1
+                        },
+                        'app-cert': {
+                            cert: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'アプリケーションプロバイダーの認定基準',
+                                    content: {
+                                        sentence: 'アプリケーションプロバイダーの認定基準です。'
+                                    }
+                                }
+                            },
+                            audit: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'アプリケーションプロバイダーの監査手順',
+                                    content: {
+                                        sentence: 'アプリケーションプロバイダーの監査手順です。'
+                                    }
+                                }
+                            }
+                        },
+                        category: null,
+                        'consumer-cert': {
+                            cert: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'データコンシューマーの認定基準',
+                                    content: {
+                                        sentence: 'データコンシューマーの認定基準です。'
+                                    }
+                                }
+                            },
+                            audit: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'データコンシューマーの監査手順',
+                                    content: {
+                                        sentence: 'データコンシューマーの監査手順です。'
+                                    }
+                                }
+                            }
+                        },
+                        'data-trader-cert': {
+                            cert: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'データ取引サービスプロバイダーの認定基準',
+                                    content: {
+                                        sentence: 'データ取引サービスプロバイダーの認定基準です。'
+                                    }
+                                }
+                            },
+                            audit: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'データ取引サービスプロバイダーの監査手順',
+                                    content: {
+                                        sentence: 'データ取引サービスプロバイダーの監査手順です。'
+                                    }
+                                }
+                            }
+                        },
+                        'identification-set': [
+                            {
+                                element: {
+                                    _value: 30001,
+                                    _ver: 1
+                                }
+                            }
+                        ],
+                        'main-block': {
+                            _value: 1000110,
+                            _ver: 1
+                        },
+                        'other-block': null,
+                        'region-root-cert': {
+                            cert: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: '領域運営サービスプロバイダーの認定基準',
+                                    content: {
+                                        sentence: '領域運営サービスプロバイダーの認定基準です。'
+                                    }
+                                }
+                            },
+                            audit: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: '領域運営サービスプロバイダーの監査手順',
+                                    content: {
+                                        sentence: '領域運営サービスプロバイダーの監査手順です。'
+                                    }
+                                }
+                            }
+                        },
+                        statement: [
+                            {
+                                title: '組織ステートメント',
+                                section: {
+                                    title: '事業概要',
+                                    content: {
+                                        sentence: '一般社団法人データビリティコンソーシアムは、ライフデザイン・イノベーション研究拠点 における活動を広く社会に普及させるために、多様なステイクホルダーが集い、高付加価値ヒューマンデータの活用によるイノベーション創出を共創的に実現していく場として、設立しました。\r\n本法人は、データ駆動型の社会課題の解決に関する多様な知識や方法を広く社会実装し、社会において急務とされる人材育成やデータ利活用の促進について、具体的な企業の方々と共に考えていく前例のないプラットフォームです。'
+                                    }
+                                }
+                            }
+                        ],
+                        status: [
+                            {
+                                status: 'certified',
+                                by: null,
+                                at: '2020-01-01T00:00:00.000+0900'
+                            }
+                        ],
+                        'wf-cert': {
+                            cert: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'ワークフロープロバイダーの認定基準',
+                                    content: {
+                                        sentence: 'ワークフロープロバイダーの認定基準です。'
+                                    }
+                                }
+                            },
+                            audit: {
+                                key: 'title',
+                                value: '',
+                                section: {
+                                    title: 'ワークフロープロバイダーの監査手順',
+                                    content: {
+                                        sentence: 'ワークフロープロバイダーの監査手順です。'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    prop: [
+                        {
+                            key: 'app-cert',
+                            type: {
+                                of: 'inner',
+                                inner: 'Certification'
+                            },
+                            description: 'アプリケーションプロバイダー認定'
+                        },
+                        {
+                            key: 'category',
+                            type: {
+                                of: 'code[]',
+                                candidate: {
+                                    ns: [
+                                        'catalog/ext/osaka-u-society5.0/category/supply/actor',
+                                        'catalog/built_in/category/supply/actor',
+                                        'catalog/model/category/supply/actor',
+                                        'catalog/ext/osaka-u-society5.0/category/share/actor',
+                                        'catalog/built_in/category/share/actor',
+                                        'catalog/model/category/share/actor'
+                                    ],
+                                    _code: null,
+                                    base: null
+                                }
+                            },
+                            description: null
+                        },
+                        {
+                            key: 'consumer-cert',
+                            type: {
+                                of: 'inner',
+                                inner: 'Certification'
+                            },
+                            description: 'データコンシューマー認定'
+                        },
+                        {
+                            key: 'data-trader-cert',
+                            type: {
+                                of: 'inner',
+                                inner: 'Certification'
+                            },
+                            description: 'データ取引サービスプロバイダー認定'
+                        },
+                        {
+                            key: 'identification-set',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'Identification'
+                            },
+                            description: '採用した本人性確認事項の組み合わせ'
+                        },
+                        {
+                            key: 'main-block',
+                            type: {
+                                of: 'code',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: 'アクター参加時に割り当てられたPXR-Block'
+                        },
+                        {
+                            key: 'other-block',
+                            type: {
+                                of: 'code[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: '他アクターから引き継いだPXR-Blockの配列'
+                        },
+                        {
+                            key: 'region-root-cert',
+                            type: {
+                                of: 'inner',
+                                inner: 'Certification'
+                            },
+                            description: '領域運営サービスプロバイダー認定'
+                        },
+                        {
+                            key: 'statement',
+                            type: {
+                                of: 'item[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: [
+                                        {
+                                            _value: 61,
+                                            _ver: 1
+                                        }
+                                    ],
+                                    base: null
+                                }
+                            },
+                            description: '組織ステートメント'
+                        },
+                        {
+                            key: 'status',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'CertStatus'
+                            },
+                            description: '認定の履歴'
+                        },
+                        {
+                            key: 'store-distribution-ratio',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'DistributionRatio'
+                            },
+                            description: '蓄積分配比率'
+                        },
+                        {
+                            key: 'supply-distribution-ratio',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'DistributionRatio'
+                            },
+                            description: '提供分配比率'
+                        },
+                        {
+                            key: 'wf-cert',
+                            type: {
+                                of: 'inner',
+                                inner: 'Certification'
+                            },
+                            description: 'ワークフロープロバイダー認定'
+                        }
+                    ],
+                    attribute: null
+                }).end();
+            } else if (_code === 1000002) {
+                res.status(200).json({
+                    catalogItem: null,
+                    template: null,
+                    prop: null,
+                    attribute: null
+                }).end();
+            }  else if (_code === 1000004) {
+                res.status(200).json({
+                    catalogItem: {
+                        ns: 'catalog/ext/osaka-u-society5.0/actor/wf',
+                        name: 'テストアクターカタログ（wf）',
+                        _code: {
+                            _value: 1000004,
+                            _ver: 1
+                        },
+                        inherit: {
+                            _value: 47,
+                            _ver: 1
+                        },
+                        description: 'テストアクターカタログ（wf）の定義です。'
+                    },
+                    template: {
+                        _code: {
+                            _value: 1000004,
+                            _ver: 1
+                        },
+                        'main-block': {
+                            _value: 1000110,
+                            _ver: 1
+                        },
+                        'other-block': null,
+                        'region-alliance': [],
+                        statement: null,
+                        status: null,
+                        workflow: [
+                            {
+                                _value: 1000010,
+                                _ver: 1
+                            },
+                            {
+                                _value: 1000011,
+                                _ver: 1
+                            }
+                        ],
+                    },
+                    prop: [
+                        {
+                            key: 'main-block',
+                            type: {
+                                of: 'code',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: 'アクター参加時に割り当てられたPXR-Block'
+                        },
+                        {
+                            key: 'other-block',
+                            type: {
+                                of: 'code[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: '他アクターから引き継いだPXR-Blockの配列'
+                        },
+                        {
+                            key: 'statement',
+                            type: {
+                                of: 'item[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: [
+                                        {
+                                            _value: 61,
+                                            _ver: 1
+                                        }
+                                    ],
+                                    base: null
+                                }
+                            },
+                            description: '組織ステートメント'
+                        },
+                        {
+                            key: 'status',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'CertStatus'
+                            },
+                            description: '認定の履歴'
+                        }
+                    ],
+                    attribute: null
+                }).end();
+            } else if (_code === 1000104) {
+                res.status(200).json({
+                    catalogItem: {
+                        ns: 'catalog/ext/osaka-u-society5.0/actor/app',
+                        name: 'テストアクターカタログ（app）',
+                        _code: {
+                            _value: 1000104,
+                            _ver: 1
+                        },
+                        inherit: {
+                            _value: 42,
+                            _ver: 1
+                        },
+                        description: 'テストアクターカタログ（app）の定義です。'
+                    },
+                    template: {
+                        _code: {
+                            _value: 1000104,
+                            _ver: 1
+                        },
+                        'main-block': {
+                            _value: 1000110,
+                            _ver: 1
+                        },
+                        'other-block': null,
+                        'region-alliance': [],
+                        statement: null,
+                        status: null,
+                        application: [
+                            {
+                                _value: 1000021,
+                                _ver: 1
+                            },
+                            {
+                                _value: 1000022,
+                                _ver: 1
+                            }
+                        ],
+                    },
+                    prop: [
+                        {
+                            key: 'main-block',
+                            type: {
+                                of: 'code',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: 'アクター参加時に割り当てられたPXR-Block'
+                        },
+                        {
+                            key: 'other-block',
+                            type: {
+                                of: 'code[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: '他アクターから引き継いだPXR-Blockの配列'
+                        },
+                        {
+                            key: 'statement',
+                            type: {
+                                of: 'item[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: [
+                                        {
+                                            _value: 61,
+                                            _ver: 1
+                                        }
+                                    ],
+                                    base: null
+                                }
+                            },
+                            description: '組織ステートメント'
+                        },
+                        {
+                            key: 'status',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'CertStatus'
+                            },
+                            description: '認定の履歴'
+                        }
+                    ],
+                    attribute: null
+                }).end();
+            } else if (_code === 1000204) {
+                res.status(200).json({
+                    catalogItem: {
+                        ns: 'catalog/ext/osaka-u-society5.0/actor/region-root',
+                        name: 'テストアクターカタログ（region-root）',
+                        _code: {
+                            _value: 1000204,
+                            _ver: 1
+                        },
+                        inherit: {
+                            _value: 49,
+                            _ver: 1
+                        },
+                        description: 'テストアクターカタログ（region-root）の定義です。'
+                    },
+                    template: {
+                        _code: {
+                            _value: 1000204,
+                            _ver: 1
+                        },
+                        'main-block': {
+                            _value: 1000110,
+                            _ver: 1
+                        },
+                        'other-block': null,
+                        statement: null,
+                        status: null,
+                        region: [
+                            {
+                                _value: 1000030,
+                                _ver: 1
+                            },
+                            {
+                                _value: 1000031,
+                                _ver: 1
+                            }
+                        ],
+                    },
+                    prop: [
+                        {
+                            key: 'main-block',
+                            type: {
+                                of: 'code',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: 'アクター参加時に割り当てられたPXR-Block'
+                        },
+                        {
+                            key: 'other-block',
+                            type: {
+                                of: 'code[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: null,
+                                    base: {
+                                        _value: 29,
+                                        _ver: null
+                                    }
+                                }
+                            },
+                            description: '他アクターから引き継いだPXR-Blockの配列'
+                        },
+                        {
+                            key: 'statement',
+                            type: {
+                                of: 'item[]',
+                                candidate: {
+                                    ns: null,
+                                    _code: [
+                                        {
+                                            _value: 61,
+                                            _ver: 1
+                                        }
+                                    ],
+                                    base: null
+                                }
+                            },
+                            description: '組織ステートメント'
+                        },
+                        {
+                            key: 'status',
+                            type: {
+                                of: 'inner[]',
+                                inner: 'CertStatus'
+                            },
+                            description: '認定の履歴'
+                        }
+                    ],
+                    attribute: null
+                }).end();
             } else if (_code === 1000109) {
                 res.status(200).json({
                     "catalogItem": {

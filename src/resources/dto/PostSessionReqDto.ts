@@ -9,10 +9,10 @@ import { transformToBooleanFromString } from '../../common/Transform';
 export default class PostSessionReqDto {
     @IsString()
     @IsNotEmpty()
-    sessionId: string;
+        sessionId: string;
 
     @IsBoolean()
     @IsOptional()
-    @Transform(transformToBooleanFromString)
-    extendFlg: boolean = false;
+    @Transform(({ value }) => { return transformToBooleanFromString(value); })
+        extendFlg: boolean = false;
 }
